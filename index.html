@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boi Gestor</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="estilos/mediaQuerry.css">
+    <script src="https://kit.fontawesome.com/c3634869e2.js" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="scripts/supabase.js"></script>
+
+    <script src="lib/jquerry.js"></script>
+    <script src="scripts/usuarios.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/dados.js"></script>
+    <script src="scripts/interface.js"></script>
+    <script src="scripts/navegacao.js"></script>
+</head>
+<body onresize="redimensionarMenu()">
+    <header>
+        <div id="cabeçalho">
+            <img src="imagens/Logo de Boi Gestor__.png" alt="">
+            <div id="titulo">
+                <h1>Boi Gestor</h1>
+                <h2>Gestão Pecuária</h2>
+            </div>
+        </div>
+        <nav>
+            <button type="button" onclick="clicou('Painel')" id="btnPainel">
+               <i class="fa-regular fa-clipboard"></i> <span class="span-menu">Painel</span>
+            </button>
+            <button type="button" onclick="clicou('Animais')">
+               <i class="fa-solid fa-cow"></i> <span class="span-menu">Animais</span>
+            </button>
+            <button type="button" onclick="clicou('Adicionar')">
+               <i class="fa-regular fa-square-plus"></i> <span class="span-menu">Adicionar</span>
+            </button>
+            <button type="button" onclick="clicou('Relatório')">
+               <i class="fa-solid fa-clipboard-list"></i> <span class="span-menu">Relatório</span>
+            </button>
+            <button type="button" onclick="clicou('Vacinação')">
+               <i class="fa-solid fa-syringe"></i> <sapn class="span-menu">Vacinação</sapn>
+            </button>
+        </nav>
+
+        <div id="footerMenu">
+            <button id="Sair" type="button" onclick="loginOut()">
+               <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="span-menu">Sair</span>
+            </button>
+            <button type="button" onclick="encolherMenu(this)" class="left" id="seta">
+                <i class="fa-solid fa-angle-left"></i>
+            </button>
+        </div>
+    </header>
+    <main>
+
+        <div id="Painel" class="divs">
+            <h1>Painel Geral</h1>
+            <h2>Visão geral do seu rebanho</h2>
+
+            <div id="visaoGeral">
+
+            </div>
+
+            <div id="img">
+                <h1>Boi Gestor</h1>
+                <p>
+                    Gerindo o que Move o Brasil — Modernize a gestão da sua pecuária com tecnologia inteligente.
+                </p>
+            </div>
+        </div>
+
+        <div id="Animais" class="divs">
+            <h1>Animais</h1>
+            <h2>Todos os animais cadastrados</h2>
+        </div>
+
+        <div id="Adicionar" class="divs">
+            <h1>Cadastrar Animal</h1>
+            <h2>Adicione um novo animal ao rebanho</h2>
+
+            <div id="divForm">
+                <h2>Adicionar Animal</h2>
+                <p>Preencha os dados do novo animal</p>
+                <form action="">
+                    <p>
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" id="nome" autocomplete="off" placeholder="Ex: Estrela">
+                    </p>
+                    <p>
+                        <label for="id">ID</label>
+                        <input type="number" name="id" id="id" autocomplete="off" placeholder="Ex: 1234">
+                    </p>
+                    <p>
+                        <label for="raça">Raça</label>
+                        <input type="text" name="raça" id="raça" autocomplete="off" placeholder="Ex: Nelore">
+                    </p>
+                    <p>
+                        <label for="tipo">Tipo</label>
+                        <input type="text" name="tipo" id="tipo" autocomplete="off" placeholder="Ex: Reprodutor">
+                    </p>
+                    <p id="add">
+                        <label for="peso">Peso (Kg)</label>
+                        <input type="number" name="peso" id="peso" placeholder="Ex: 850">
+                        <button type="button" onclick="adicionar()">
+                            <i class="fa-regular fa-square-plus"></i> Cadastrar Animal
+                        </button>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <div id="Relatório" class="divs">
+            <h1>Relatório</h1>
+            <h2>Desempenho e indicadores do rebanho</h2>
+        </div>
+
+        <div id="Vacinação" class="divs">
+            <h1>Vacinação</h1>
+            <h2>Controle sanitário do rebanho</h2>
+
+            <div id="resumoVacinação">
+
+            </div>
+        </div>
+
+        <div class="mensagem">
+            
+        </div>
+    </main>
+</body>
+</html>

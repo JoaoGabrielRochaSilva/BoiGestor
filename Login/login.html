@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login-Boi Gestor</title>
+
+    <link rel="stylesheet" href="../estilos/login.css">
+
+    <script src="https://kit.fontawesome.com/c3634869e2.js" crossorigin="anonymous"></script>
+    <script src="../lib/jquerry.js"></script>
+
+    <!-- 🔥 SUPABASE (VERSÃO CORRETA) -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="../scripts/supabase.js"></script>
+
+    <!-- seus scripts -->
+    <script src="../scripts/interface.js"></script>
+    <script src="../scripts/usuarios.js"></script>
+    <script src="../scripts/login.js"></script>
+</head>
+<body>
+    <main>
+        <div id="divImg">
+            <section>
+                <h1>Gerindo o que Move o Brasil</h1>
+                <p>Modernize a gestão da sua fazenda com tecnologia inteligente para pecuária bovina.</p>
+            </section>
+        </div>
+
+        <form action="">
+            <img src="../imagens/Logo de Boi Gestor__.png" alt="">
+            <h1>Bem-Vindo ao <span>Boi Gestor</span></h1>
+            <h2>Entre na sua conta para gerenciar seu rebanho</h2>
+            <div id="mensagem">
+                Usuário ou senha incorretos
+            </div>
+            <p>
+                <label for="user">Usuário</label>
+                <input type="text" name="user" id="user" placeholder="Digite seu usuário">
+            </p>
+            <p>
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="Digite sua senha">
+            </p>
+                <button type="button" onclick="login()">
+                   <i class="fa-solid fa-arrow-right-to-bracket"></i> Entrar
+                </button>
+                <p>Usuário demo: <strong>Boi</strong> / Senha: <strong>Boi123</strong></p>
+        </form>
+    </main>
+    
+</body>
+</html>
