@@ -1,2 +1,2 @@
 # BoiGestor
- Projeto criado durante as aulas extensão da faculdade
+ Projeto criado durante as aulas de extensão da faculdade
