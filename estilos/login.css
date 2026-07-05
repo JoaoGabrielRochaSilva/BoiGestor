@@ -179,7 +179,7 @@ form > p:last-child  > strong {
     }
 
     form {
-        width: 70%;
+        width: 75%;
     }
 
     form > p {
@@ -188,5 +188,11 @@ form > p:last-child  > strong {
 
     form > button {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    form {
+        width: 90%;
     }
 }
