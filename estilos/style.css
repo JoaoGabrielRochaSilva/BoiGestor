@@ -344,6 +344,38 @@ div#visaoGeral > div > p > span {
     padding: 8px;
     border-radius: 12px;
 }
+
+div#graficos {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: 25px;
+}
+
+div#graficos > .card-grafico {
+    width: 45%;
+    position: relative;
+    height: 400px;
+    min-width: 400px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
+    transition: 0.3s;
+}
+
+div#graficos > .card-grafico:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.205);
+}
+
+.card-grafico canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
 /*=============================================*/
 
 /*=========== Configurações da div que vai aparecer o resumo geral na vacinação ===========*/

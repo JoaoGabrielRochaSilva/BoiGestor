@@ -286,6 +286,367 @@ function editarTela() {
     document.getElementById("pesoEdite").value = animalSelecionado.peso;
 }
 
+//Graficos armazenados
+ const graficos = {
+        vacina: null,
+        raca: null,
+        tipo: null,
+        producao: null,
+        peso: null
+    };
+
+//Monta os graficos dinamicamente no dashboard
+function montarGraficos() {
+
+    const vacina = document.getElementById("graficoVacina");
+    const producao = document.getElementById("graficoProducao");
+    const raca = document.getElementById("graficoRaca");
+    const tipo = document.getElementById("graficoTipo");
+
+    if (graficos.vacina) 
+        graficos.vacina.destroy();
+
+    graficos.vacina = new Chart(vacina, {
+        type: "doughnut",
+
+        data: {
+            labels: [
+                "Em dia",
+                "Pendente",
+                "Atrasada"
+            ],
+
+            datasets: [{
+                data: [contVacinaemDia(), contVacinaPendente(), contVacinaAtrasada()],
+
+                backgroundColor: [
+                    "#16A34A",
+                    "#F59E0B",
+                    "#DC2626"  
+                ],
+
+                borderColor: [
+                    "#15803D",
+                    "#B45309",
+                    "#B91C1C"
+                ],
+
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            cutout: "60%",
+            responsive: true,
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Vacinação do Rebanho",
+                    font: {
+                        size: 20,
+                        weight: "bold"
+                    }
+                },
+
+                legend: {
+                    position: "bottom",
+
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        },
+
+                        usePointStyle: true,
+                        pointStyle: "circle"
+                    }
+                },
+
+                tooltip: {
+
+                    backgroundColor: "#1F2937",
+
+                    titleFont: {
+                        size: 15
+                    },
+
+                    bodyFont: {
+                        size: 14
+                    }
+
+                }
+
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                easing: "easeOutQuart"
+            }
+
+        },
+            
+    });
+
+    if (graficos.producao)
+        graficos.producao.destroy();
+
+    graficos.producao = new Chart(producao, {
+        type: "doughnut",
+
+        data: {
+            labels: [
+                "Acima do Normal",
+                "Normal",
+                "Abaixo do Normal"
+            ],
+
+            datasets: [{
+                data: [contProdAcima(), contProdNormal(), contProdAbaixo()],
+
+                backgroundColor: [
+                    "#16A34A",
+                    "#F59E0B",
+                    "#DC2626"
+                ],
+
+                borderColor: [
+                    "#15803D",
+                    "#B45309",
+                    "#B91C1C"
+                ],
+
+                borderWidth: 1
+            }], 
+        },
+
+        options: {
+            cutout: "60%",
+            responsive: true,
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Produção do Rebanho",
+                    font: {
+                        size: 20,
+                        weight: "bold"
+                    }
+                },
+
+                legend: {
+                    position: "bottom",
+
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        },
+
+                        usePointStyle: true,
+                        pointStyle: "circle"
+                    }
+                },
+
+                tooltip: {
+
+                    backgroundColor: "#1F2937",
+
+                    titleFont: {
+                        size: 15
+                    },
+
+                    bodyFont: {
+                        size: 14
+                    }
+
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                delay: 300,
+                easing: "easeOutQuart"
+            }
+            
+        }
+  
+    });
+
+    const contraca = contarPorCampo("raca");
+
+    if (graficos.raca)
+        graficos.raca.destroy();
+
+    graficos.raca = new Chart(raca, {
+        type: "bar",
+
+        data: {
+            labels: Object.keys(contraca),
+
+            datasets: [{
+                label: "Quantidade",
+                
+                data: Object.values(contraca),
+
+                 backgroundColor: [
+                    "#2563EB",
+                    "#10B981",
+                    "#F59E0B",
+                    "#EF4444",
+                    "#8B5CF6",
+                ],
+
+                 borderRadius: 12
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Quantidade de Raças",
+                    font: {
+                        size: 20,
+                        weight: "bold"
+                    }
+                },
+
+                tooltip: {
+
+                    backgroundColor: "#1F2937",
+
+                    titleFont: {
+                        size: 15
+                    },
+
+                    bodyFont: {
+                        size: 14
+                    }
+
+                }
+            },
+
+            scales: {
+
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
+
+                y: {
+                    grid: {
+                        color: "#ECECEC"
+                    }
+                }
+
+            },
+            animation: {
+                duration: 1200,
+                delay: 450,
+                easing: "easeOutQuart",
+
+                delay(context) {
+                    return context.dataIndex * 120;
+                }
+            }
+        }
+    });
+
+    const conttipo = contarPorCampo("tipo");
+
+    if (graficos.tipo)
+        graficos.tipo.destroy();
+
+    graficos.tipo = new Chart(tipo, {
+        type: "bar",
+
+        data: {
+            labels: Object.keys(conttipo),
+
+            datasets: [{
+                label: "Quantidade",
+                
+                data: Object.values(conttipo),
+
+                backgroundColor: [
+                    "#2563EB",
+                    "#10B981",
+                    "#F59E0B",
+                    "#EF4444",
+                    "#8B5CF6",
+                ],
+
+                borderRadius: 12
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Quantidade de Tipos",
+                    font: {
+                        size: 20,
+                        weight: "bold"
+                    }
+                },
+
+                tooltip: {
+
+                    backgroundColor: "#1F2937",
+
+                    titleFont: {
+                        size: 15
+                    },
+
+                    bodyFont: {
+                        size: 14
+                    }
+
+                }
+                
+            },
+
+            scales: {
+
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
+
+                y: {
+                    grid: {
+                        color: "#ECECEC"
+                    }
+                }
+
+            },
+            animation: {
+                duration: 1200,
+                delay: 600,
+                easing: "easeOutQuart",
+
+                delay(context) {
+                    return context.dataIndex * 120;
+                }
+            }
+        }
+    });
+
+}
 
 async function iniciarSistema() {
     await carregarBois();

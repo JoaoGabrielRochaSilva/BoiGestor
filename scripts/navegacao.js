@@ -23,11 +23,14 @@ function clicou(botao) {
 
     if (botao == "Painel") {
         montarResumoGeral();
+        
+        montarGraficos();
 
         divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p>`);
 
         $("#Painel").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Painel").append(divtab);
+        
 
     } else if (botao == "Animais") {
          divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p>`);

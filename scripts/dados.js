@@ -4,6 +4,22 @@
 
 var bois = [];
 
+//Conta algum campo do objeto boi (vacinas, producao, alimentacao ,etc...)
+function contarPorCampo(campo) {
+
+    const contagem = {};
+
+    for (const boi of bois) {
+
+        const valor = boi[campo].trim().toLowerCase();
+
+        contagem[valor] = (contagem[valor] || 0) + 1;
+
+    }
+
+    return contagem;
+}
+
 // 🔥 Buscar bois do usuário logado
 async function carregarBois() {
     const usuarioId = localStorage.getItem("usuario_id");
@@ -54,6 +70,36 @@ function contVacinaemDia() {
             Total++;
     }
     return Total;
+}
+
+// Conta a quantidade de bois com a produção alta
+function contProdAcima() {
+    let total = 0;
+    for (const boi of bois) {
+        if (boi.producao == "Acima do Normal")
+            total++;
+    }
+    return total;
+}
+
+// Conta a quantidade de bois com a produção normal
+function contProdNormal() {
+    let total = 0;
+    for (const boi of bois) {
+        if (boi.producao == "Normal")
+            total++;
+    }
+    return total;
+}
+
+// Conta a quantidade de bois com a produção baixa
+function contProdAbaixo() {
+    let total = 0;
+    for (const boi of bois) {
+        if (boi.producao == "Abaixo do Normal")
+            total++;
+    }
+    return total;
 }
 
 // Retorna o peso médio dos animais do rebanho
