@@ -185,8 +185,8 @@ main {
     height: fit-content;
     position: absolute;
     background-color: whitesmoke;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.205);
-    
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.301);
+    border-radius: 0px 16px 16px 16px;
 }
 
 #menu-EditaRemove > button {
@@ -206,20 +206,24 @@ main {
 
 #menu-EditaRemove > button:first-child {
     color: rgb(230, 138, 0);
-    background-color: rgba(255, 255, 0, 0.301);
+    background-color: rgba(255, 255, 0, 0.205);
+    border: 1px solid rgb(230, 138, 0);
+    border-radius: 0px 16px 0px 0px;
 }
 
 #menu-EditaRemove > button:first-child:hover {
-    background-color: rgba(255, 255, 0, 0.541);
+    background-color: rgba(255, 255, 0, 0.336);
 }
 
 #menu-EditaRemove > button:last-child {
     color: red;
     background-color: rgba(255, 0, 0, 0.13);
+    border: 1px solid red;
+    border-radius: 0px 0px 16px 16px;
 }
 
 #menu-EditaRemove > button:last-child:hover {
-    background-color: rgba(255, 0, 0, 0.37);
+    background-color: rgba(255, 0, 0, 0.205);
 }
 
 .oculto {
