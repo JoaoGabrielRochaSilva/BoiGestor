@@ -179,6 +179,120 @@ main {
     color: #6B7D74;
     padding: 5px;
 }
+
+#menu-EditaRemove {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    background-color: whitesmoke;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.205);
+    
+}
+
+#menu-EditaRemove > button {
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(0, 0, 0, 0.342);
+    background-color: whitesmoke;
+    transition: 0.3s;
+}
+
+#menu-EditaRemove > button:hover {
+    cursor: pointer;
+}
+
+#menu-EditaRemove > button:first-child {
+    color: rgb(230, 138, 0);
+    background-color: rgba(255, 255, 0, 0.301);
+}
+
+#menu-EditaRemove > button:first-child:hover {
+    background-color: rgba(255, 255, 0, 0.541);
+}
+
+#menu-EditaRemove > button:last-child {
+    color: red;
+    background-color: rgba(255, 0, 0, 0.13);
+}
+
+#menu-EditaRemove > button:last-child:hover {
+    background-color: rgba(255, 0, 0, 0.37);
+}
+
+.oculto {
+    display: none;
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    background-color: white;
+    width: 50%;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(128, 128, 128, 0.26);
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.096);
+}
+
+dialog > button {
+    display: block;
+    color: red;
+    font-size: 26px;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    margin-left: auto;
+}
+
+dialog > button:hover {
+    cursor: pointer;
+    color: rgb(226, 2, 2);
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.534);
+}
+
+dialog#removerModal > button {
+    color: white;
+}
+
+dialog#removerModal > button:hover {
+    color: rgb(231, 231, 231);
+}
+
+dialog#removerModal > p {
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+dialog#removerModal > p > button {
+    width: 100px;
+    font-size: 0.95em;
+    padding: 8px;
+    border: none;
+    margin-right: 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: white;
+    text-align: center;
+}
+
+dialog#removerModal > p > button:hover {
+    cursor: pointer;
+    background-color: rgb(224, 224, 224);
+}
+
+dialog#removerModal > p > button > i {
+    color: red;
+}
+
 /*=============================================*/
 
 /*=========== Configurações da div que vai aparecer o resumo geral no painel ===========*/
@@ -284,7 +398,7 @@ div#divForm {
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.096);
 }
 
-div#divForm > h2 {
+div#divForm > h2, dialog > h2 {
     font-size: 1.2em;
     padding: 10px 20px 0px 0px;
     margin-bottom: 6px;
@@ -296,7 +410,7 @@ div#divForm > p {
     padding: 0px 20px 0px 0px;
 }
 
-div#divForm > form {
+div#divForm > form, dialog > form {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -305,11 +419,11 @@ div#divForm > form {
     margin-top: 30px;
 }
 
-div#divForm > form > p {
+div#divForm > form > p, dialog > form > p {
     width: 48%;
 }
 
-div#divForm > form > p > input {
+div#divForm > form > p > input, dialog > form > p > input {
     width: 100%;
     font-size: 0.95em;
     background-color: #ECEFE7;
@@ -323,15 +437,15 @@ div#divForm > form > p > input {
     transition: 0.4s;
 }
 
-div#divForm > form > p > input:focus {
+div#divForm > form > p > input:focus, dialog > form > p > input:focus {
     border: 2px solid #27684A;
 }
 
-div#divForm > form > p#add {
+div#divForm > form > p#add, dialog > form >  p#add {
     width: 100%;
 }
 
-div#divForm > form > p > label {
+div#divForm > form > p > label, dialog > form > p > label {
     display: block;
     margin-bottom: 10px;
     padding-left: 2px;
@@ -339,7 +453,7 @@ div#divForm > form > p > label {
     font-weight: 550;
 }
 
-div#divForm > form > p > button {
+div#divForm > form > p > button, dialog > form > p > button {
     width: 100%;
     padding: 14px;
     border: none;
@@ -352,7 +466,7 @@ div#divForm > form > p > button {
     transition: 0.4s;
 }
 
-div#divForm > form > p > button:hover {
+div#divForm > form > p > button:hover, dialog > form > p > button:hover {
     cursor: pointer;
     background-color: #3C775C;
 }
@@ -505,6 +619,7 @@ table > tbody > tr > td {
 
 table > tbody > tr:hover {
     background-color: #f6f7f470;
+    cursor: pointer;
 }
 /*=============================================*/
 

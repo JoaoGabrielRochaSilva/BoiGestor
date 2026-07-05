@@ -38,7 +38,7 @@ function montarTabela(tipo, htmlheader) {
         tabela = "<table> <thead> <tr>  <th>ID</th> <th>NOME</th> <th>RAÇA</th> <th>TIPO</th> <th>PESO</th> <th>VACINA</th> </tr> </thead> <tbody>";
   
         for(let i=0; i < bois.length; i++) {
-            tabela += `<tr> <td>#${bois[i].ID}</td> <td>${bois[i].nome}</td>  <td>${bois[i].raca}</td> <td><span class="span-cinza">${bois[i].tipo}</span></td> <td>${bois[i].peso} Kg</td>`;
+            tabela += `<tr onclick="EditaRemove(${bois[i].ID}, event)"> <td>#${bois[i].ID}</td> <td>${bois[i].nome}</td>  <td>${bois[i].raca}</td> <td><span class="span-cinza">${bois[i].tipo}</span></td> <td>${bois[i].peso} Kg</td>`;
 
             if (bois[i].vacina == "Em dia")
                 tabela += `<td><span class="span-verde">${bois[i].vacina}</span></td> </tr>`;
@@ -254,6 +254,36 @@ function mostraMensagem(html, tipo) {
             mensagem.removeClass("mensagemDesativa");
         }, 300);
     }, 5000);
+}
+
+//Edita ou Remove? Faz aparecer o menu de opções
+let animalSelecionado = null; //Animal selecionado para manipulação
+function EditaRemove(id, event) {
+    animalSelecionado = bois.find(boi => boi.ID == id);
+    const menu = document.getElementById("menu-EditaRemove");
+    menu.style.left = event.pageX + "px";
+    menu.style.top = event.pageY + "px";
+
+    menu.classList.remove("oculto");
+
+    event.stopPropagation();
+
+
+    document.addEventListener("click", (event) => {
+
+        if (!menu.contains(event.target) || menu.contains(event.target))
+            menu.classList.add("oculto");
+
+    });
+}
+
+//Preenche o formulário de edição com os dados do boi selecionado
+function editarTela() {
+    document.getElementById("nomeEdite").value = animalSelecionado.nome;
+    document.getElementById("idEdite").value = animalSelecionado.ID;
+    document.getElementById("raçaEdite").value = animalSelecionado.raca;
+    document.getElementById("tipoEdite").value = animalSelecionado.tipo;
+    document.getElementById("pesoEdite").value = animalSelecionado.peso;
 }
 
 

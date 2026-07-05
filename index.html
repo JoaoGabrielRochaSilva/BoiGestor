@@ -77,6 +77,53 @@
             <h2>Todos os animais cadastrados</h2>
         </div>
 
+        <div id="menu-EditaRemove" class="oculto">
+            <button type="button" command="show-modal" commandfor="editarModal" onclick="editarTela()"><i class="fa-regular fa-pen-to-square"></i> Editar Animal</button>
+            <button type="button" command="show-modal" commandfor="removerModal"><i class="fa-regular fa-trash-can"></i> Remover Animal</button>
+        </div>
+
+        <dialog id="editarModal">
+            <button command="close" commandfor="editarModal"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h2><i class="fa-regular fa-pen-to-square"></i> Editar Animal</h2>
+            <form action="">
+                    <p>
+                        <label for="nomeEdite">Nome</label>
+                        <input type="text" name="nomeEdite" id="nomeEdite" autocomplete="off" placeholder="Ex: Estrela">
+                    </p>
+                    <p>
+                        <label for="idEdite">ID</label>
+                        <input type="number" name="idEdite" id="idEdite" autocomplete="off" placeholder="Ex: 1234">
+                    </p>
+                    <p>
+                        <label for="raçaEdite">Raça</label>
+                        <input type="text" name="raçaEdite" id="raçaEdite" autocomplete="off" placeholder="Ex: Nelore">
+                    </p>
+                    <p>
+                        <label for="tipoEdite">Tipo</label>
+                        <input type="text" name="tipoEdite" id="tipoEdite" autocomplete="off" placeholder="Ex: Reprodutor">
+                    </p>
+                    <p id="add">
+                        <label for="pesoEdite">Peso (Kg)</label>
+                        <input type="number" name="pesoEdite" id="pesoEdite" placeholder="Ex: 850">
+                        <button type="button" onclick="Salvar()">
+                            <i class="fa-regular fa-pen-to-square"></i> Salvar Alterações
+                        </button>
+                    </p>
+                </form>
+        </dialog>
+
+        <dialog id="removerModal" class="mensagem-vermelha">
+            <button command="close" commandfor="removerModal"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h2><i class="fa-regular fa-trash-can"></i> Remover Animal</h2>
+            <p>
+                Você tem certeza que deseja remover o animal do rebanho?
+            </p>
+            <p>
+                <button type="button" onclick="removerAnimal()" command="close" commandfor="removerModal"><i class="fa-solid fa-skull"></i> Sim</button>
+                <button type="button" command="close" commandfor="removerModal"><i class="fa-solid fa-arrow-rotate-left"></i> Não</button>
+            </p>
+        </dialog>
+
         <div id="Adicionar" class="divs">
             <h1>Cadastrar Animal</h1>
             <h2>Adicione um novo animal ao rebanho</h2>

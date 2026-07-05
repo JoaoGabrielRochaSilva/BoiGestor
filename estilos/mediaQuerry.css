@@ -80,6 +80,10 @@
     div#img > p {
         width: 70%;
     }
+
+    dialog {
+        width: 80%;
+    }
     
 }
 
@@ -109,6 +113,8 @@
     div#img > p {
         width: 100%;
     }
+
+    
 
     div#divForm {
         width: 100%;
