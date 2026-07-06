@@ -122,16 +122,26 @@ function validarID(id) {
     return false;
 }
 
+//Formata o texto dos inputs (Raça e Tipo)
+function formatarTexto(texto) {
+    return texto
+        .trim()
+        .toLowerCase()
+        .split(/\s+/)
+        .map(palavra => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+        .join(" ");
+}
+
 // 🔥 Adiciona um boi no banco (Supabase)
 async function adicionar() {
     let html;
 
     let boiadd = {
-        nome: document.getElementById("nome").value,
-        ID: document.getElementById("id").value,
-        raca: document.getElementById("raça").value,
-        tipo: document.getElementById("tipo").value,
-        peso: Number(document.getElementById("peso").value),
+        nome: document.getElementById("nome").value.trim(),
+        ID: document.getElementById("id").value.trim(),
+        raca: formatarTexto(document.getElementById("raça").value),
+        tipo: formatarTexto(document.getElementById("tipo").value),
+        peso: Number(document.getElementById("peso").value.trim()),
 
         // 🔥 VALORES AUTOMÁTICOS
         alimentacao: "Normal",
@@ -185,11 +195,11 @@ async function adicionar() {
 
 //Função que salva as alterações do formulário de edição
 function Salvar() {
-    const nome = document.getElementById("nomeEdite").value;
-    const id = document.getElementById("idEdite").value;
-    const raca = document.getElementById("raçaEdite").value;
-    const tipo = document.getElementById("tipoEdite").value;
-    const peso = document.getElementById("pesoEdite").value;
+    const nome = document.getElementById("nomeEdite").value.trim();
+    const id = document.getElementById("idEdite").value.trim();
+    const raca = formatarTexto(document.getElementById("raçaEdite").value);
+    const tipo = formatarTexto(document.getElementById("tipoEdite").value);
+    const peso = document.getElementById("pesoEdite").value.trim();
 
     if (
         nome.length == 0 ||
@@ -206,14 +216,22 @@ function Salvar() {
             mostraMensagem(html, 2);
         }
     } else {
-        animalSelecionado.nome = nome;
-        animalSelecionado.ID = id;
-        animalSelecionado.raca = raca;
-        animalSelecionado.tipo = tipo;
-        animalSelecionado.peso = Number(peso);
-        html = `<h1>Animal Atualizado! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi alterado</p>`;
-        mostraMensagem(html, 1);
+        const indice = bois.indexOf(animalSelecionado);
 
+        if (indice != -1) {
+            animalSelecionado.nome = nome;
+            animalSelecionado.ID = id;
+            animalSelecionado.raca = raca;
+            animalSelecionado.tipo = tipo;
+            animalSelecionado.peso = Number(peso);
+
+            bois[indice] = animalSelecionado;
+            html = `<h1>Animal Atualizado! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi alterado</p>`;
+            mostraMensagem(html, 1);
+        } else {
+            html = "<h1>ID não encontrado</h1><p>Erro ao tentar buscar o ID, tente novamente...</p>";
+            mostraMensagem(html, 2);
+        }
         // Limpar inputs
         document.getElementById("nomeEdite").value = "";
         document.getElementById("idEdite").value = "";
@@ -229,9 +247,9 @@ function Salvar() {
 function removerAnimal() {
     for(let i=0; i < bois.length; i++) {
         if (bois[i].ID == animalSelecionado.ID)
-            bois.slice(i, 1);
+            bois.splice(i, 1);
     }
 
-    html = `<h1>Animal Removido! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi removido ao rebanho</p>`;
+    html = `<h1>Animal Removido! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi removido do rebanho</p>`;
     mostraMensagem(html, 1);
 }
