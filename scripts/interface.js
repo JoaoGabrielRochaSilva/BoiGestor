@@ -95,15 +95,15 @@ function montarResumoVacina() {
 
     // Cria a div com a quantidade de vacinas em dia
     let divEmdia = document.createElement("div");
-    divEmdia.innerHTML = `<p><span style="color: #40AC67; background-color: #E9F6EE"><i class="fa-regular fa-circle-check"></i></span><section><h1>${contVacinaemDia()}</h1><p>Em dia</p></section></p>`;
+    divEmdia.innerHTML = `<p><span style="color: #40AC67; background-color: #E9F6EE"><i class="fa-regular fa-circle-check"></i></span><section><h1>${contVacinacao("Em dia")}</h1><p>Em dia</p></section></p>`;
 
     // Cria a div com a quantidade de vacinas atrasadas
     let divAtrasada = document.createElement("div");
-    divAtrasada.innerHTML = `<p><span style="color: #DC2828; background-color: #FBE9E9"><i class="fa-solid fa-triangle-exclamation"></i></span><section><h1>${contVacinaAtrasada()}</h1><p>Atrasadas</p></section></p>`;
+    divAtrasada.innerHTML = `<p><span style="color: #DC2828; background-color: #FBE9E9"><i class="fa-solid fa-triangle-exclamation"></i></span><section><h1>${contVacinacao("Atrasada")}</h1><p>Atrasadas</p></section></p>`;
 
     // Cria a div com a quantidade de vacinas Pendentes
     let divPendente = document.createElement("div");
-    divPendente.innerHTML = `<p><span style="color: #F59F0A; background-color: #FDECCE"><i class="fa-regular fa-clock"></i></span><section><h1>${contVacinaPendente()}</h1><p>Pendentes</p></section></p>`;
+    divPendente.innerHTML = `<p><span style="color: #F59F0A; background-color: #FDECCE"><i class="fa-regular fa-clock"></i></span><section><h1>${contVacinacao("Pendente")}</h1><p>Pendentes</p></section></p>`;
 
     // Adiciona todas as divs acima ao resumo vacinação
     divResumo.appendChild(divEmdia);
@@ -129,7 +129,7 @@ function montarResumoGeral() {
 
     // Cria a div contendo a quantidade de vacinas em dia do rebanho
     let divVacina = document.createElement("div");
-    divVacina.innerHTML = `<p>Vacinas em Dia <span style="color: #38A961; background-color: #E9F6EE"><i class="fa-solid fa-syringe"></i></span></p> <h1>${contVacinaemDia()}</h1>`
+    divVacina.innerHTML = `<p>Vacinas em Dia <span style="color: #38A961; background-color: #E9F6EE"><i class="fa-solid fa-syringe"></i></span></p> <h1>${contVacinacao("Em dia")}</h1>`
 
     // Cria a div contendo a quantidade de alertas
     let divAlertas = document.createElement("div");
@@ -324,7 +324,7 @@ function montarGraficos() {
             ],
 
             datasets: [{
-                data: [contVacinaemDia(), contVacinaPendente(), contVacinaAtrasada()],
+                data: [contVacinacao("Em dia"), contVacinacao("Pendente"), contVacinacao("Atrasada")],
 
                 backgroundColor: [
                     "#16A34A",
@@ -410,7 +410,7 @@ function montarGraficos() {
             ],
 
             datasets: [{
-                data: [contProdAcima(), contProdNormal(), contProdAbaixo()],
+                data: [contProducao("Acima do Normal"), contProducao("Normal"), contProducao("Abaixo do Normal")],
 
                 backgroundColor: [
                     "#167ba38a",
@@ -652,7 +652,7 @@ function montarGraficos() {
 
 }
 
-//Monta os graficos da aba relatório
+//Monta os graficos dinamicamente na aba relatório
 function montarGraficosRelatorio() {
     const producao = document.getElementById("producaoR");
     const alimentacao = document.getElementById("alimentacaoR");
@@ -670,7 +670,7 @@ function montarGraficosRelatorio() {
             ],
 
             datasets: [{
-                data: [contProdAcima(), contProdNormal(), contProdAbaixo()],
+                data: [contProducao("Acima do Normal"), contProducao("Normal"), contProducao("Abaixo do Normal")],
 
                 backgroundColor: [
                     "#16a34aa8",
