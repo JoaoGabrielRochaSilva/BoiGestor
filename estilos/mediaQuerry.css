@@ -15,10 +15,6 @@
         flex-basis: 49%;
     }
 
-    div#divForm {
-        width: 70%;
-    }
-
     div#graficos > .card-grafico {
         width: 80%;
     }
@@ -92,6 +88,11 @@
 
 @media screen and (max-width: 600px) {
     
+    .divs > button {
+        width: 100%;
+        margin-top: 16px;
+    }
+
     div#visaoGeral {
         flex-direction: column;
         gap: 10px;
@@ -117,9 +118,7 @@
         width: 100%;
     }
 
-    
-
-    div#divForm {
-        width: 100%;
+    dialog {
+        width: 95%;
     }
 }

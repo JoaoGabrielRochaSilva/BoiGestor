@@ -34,9 +34,6 @@
             <button type="button" onclick="clicou('Animais')">
                <i class="fa-solid fa-cow"></i> <span class="span-menu">Animais</span>
             </button>
-            <button type="button" onclick="clicou('Adicionar')">
-               <i class="fa-regular fa-square-plus"></i> <span class="span-menu">Adicionar</span>
-            </button>
             <button type="button" onclick="clicou('Relatório')">
                <i class="fa-solid fa-clipboard-list"></i> <span class="span-menu">Relatório</span>
             </button>
@@ -54,8 +51,8 @@
             </button>
         </div>
     </header>
-    <main>
 
+    <main>
         <div id="Painel" class="divs">
             <h1>Painel Geral</h1>
             <h2>Visão geral do seu rebanho</h2>
@@ -90,6 +87,40 @@
         <div id="Animais" class="divs">
             <h1>Animais</h1>
             <h2>Todos os animais cadastrados</h2>
+            <button type="button" command="show-modal" commandfor="adicionarModal">
+                <i class="fa-regular fa-square-plus"></i> Cadastrar Animal
+            </button>
+
+            <dialog id="adicionarModal">
+                <button command="close" commandfor="adicionarModal"><i class="fa-solid fa-circle-xmark"></i></button>
+                <h2><i class="fa-regular fa-square-plus"></i> Adicionar Animal</h2>
+                <p>Preencha os dados do novo animal</p>
+                <form action="">
+                    <p>
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" id="nome" autocomplete="off" placeholder="Ex: Estrela">
+                    </p>
+                    <p>
+                        <label for="id">ID</label>
+                        <input type="number" name="id" id="id" autocomplete="off" placeholder="Ex: 1234">
+                    </p>
+                    <p>
+                        <label for="raça">Raça</label>
+                        <input type="text" name="raça" id="raça" autocomplete="off" placeholder="Ex: Nelore">
+                    </p>
+                    <p>
+                        <label for="tipo">Tipo</label>
+                        <input type="text" name="tipo" id="tipo" autocomplete="off" placeholder="Ex: Reprodutor">
+                    </p>
+                    <p id="add">
+                        <label for="peso">Peso (Kg)</label>
+                        <input type="number" name="peso" id="peso" placeholder="Ex: 850">
+                        <button type="button" onclick="adicionar()">
+                            <i class="fa-regular fa-square-plus"></i> Cadastrar Animal
+                        </button>
+                    </p>
+                </form>
+            </dialog>
         </div>
 
         <div id="menu-EditaRemove" class="oculto">
@@ -100,6 +131,7 @@
         <dialog id="editarModal">
             <button command="close" commandfor="editarModal"><i class="fa-solid fa-circle-xmark"></i></button>
             <h2><i class="fa-regular fa-pen-to-square"></i> Editar Animal</h2>
+            <p>Altere os campos que desejar</p>
             <form action="">
                     <p>
                         <label for="nomeEdite">Nome</label>
@@ -130,7 +162,7 @@
         <dialog id="removerModal" class="mensagem-vermelha">
             <button command="close" commandfor="removerModal"><i class="fa-solid fa-circle-xmark"></i></button>
             <h2><i class="fa-regular fa-trash-can"></i> Remover Animal</h2>
-            <p>
+            <p style="color: white;">
                 Você tem certeza que deseja remover o animal do rebanho?
             </p>
             <p>
@@ -138,41 +170,6 @@
                 <button type="button" command="close" commandfor="removerModal"><i class="fa-solid fa-arrow-rotate-left"></i> Não</button>
             </p>
         </dialog>
-
-        <div id="Adicionar" class="divs">
-            <h1>Cadastrar Animal</h1>
-            <h2>Adicione um novo animal ao rebanho</h2>
-
-            <div id="divForm">
-                <h2>Adicionar Animal</h2>
-                <p>Preencha os dados do novo animal</p>
-                <form action="">
-                    <p>
-                        <label for="nome">Nome</label>
-                        <input type="text" name="nome" id="nome" autocomplete="off" placeholder="Ex: Estrela">
-                    </p>
-                    <p>
-                        <label for="id">ID</label>
-                        <input type="number" name="id" id="id" autocomplete="off" placeholder="Ex: 1234">
-                    </p>
-                    <p>
-                        <label for="raça">Raça</label>
-                        <input type="text" name="raça" id="raça" autocomplete="off" placeholder="Ex: Nelore">
-                    </p>
-                    <p>
-                        <label for="tipo">Tipo</label>
-                        <input type="text" name="tipo" id="tipo" autocomplete="off" placeholder="Ex: Reprodutor">
-                    </p>
-                    <p id="add">
-                        <label for="peso">Peso (Kg)</label>
-                        <input type="number" name="peso" id="peso" placeholder="Ex: 850">
-                        <button type="button" onclick="adicionar()">
-                            <i class="fa-regular fa-square-plus"></i> Cadastrar Animal
-                        </button>
-                    </p>
-                </form>
-            </div>
-        </div>
 
         <div id="Relatório" class="divs">
             <h1>Relatório</h1>

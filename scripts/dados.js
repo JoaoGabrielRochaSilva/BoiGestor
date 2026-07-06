@@ -188,6 +188,8 @@ async function adicionar() {
         document.getElementById("tipo").value = "";
         document.getElementById("peso").value = "";
 
+        document.getElementById("adicionarModal").close(); //Fechar modal de cadastro
+
         // 🔥 Atualiza lista local
         await carregarBois();
     }
@@ -239,7 +241,7 @@ function Salvar() {
         document.getElementById("tipoEdite").value = "";
         document.getElementById("pesoEdite").value = "";
 
-        document.getElementById("editarModal").close(); //Fechar modal
+        document.getElementById("editarModal").close(); //Fechar modal de edição
     }
 }
 

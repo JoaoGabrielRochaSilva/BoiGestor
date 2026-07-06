@@ -180,6 +180,28 @@ main {
     padding: 5px;
 }
 
+.divs > button {
+    width: 200px;
+    display: block;
+    margin-left: auto;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background-color: #27684A;
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.432);
+    transition: 0.4s;   
+}
+
+.divs > button:hover {
+    cursor: pointer;
+    background-color: #3C775C;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.562);
+}
+
 #menu-EditaRemove {
     width: fit-content;
     height: fit-content;
@@ -423,30 +445,20 @@ section > p {
 }
 /*=============================================*/
 
-/*=========== Configurações do formulário ===========*/
-div#divForm {
-    background-color: white;
-    width: 50%;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(128, 128, 128, 0.26);
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.096);
-}
-
-div#divForm > h2, dialog > h2 {
+/*=========== Configurações do formulário (Adiciona e Altera) ===========*/
+dialog > h2 {
     font-size: 1.2em;
     padding: 10px 20px 0px 0px;
     margin-bottom: 6px;
 }
 
-div#divForm > p {
+dialog > p {
     color: #8A9891;
     font-size: 0.9em;
     padding: 0px 20px 0px 0px;
 }
 
-div#divForm > form, dialog > form {
+dialog > form {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -455,11 +467,11 @@ div#divForm > form, dialog > form {
     margin-top: 30px;
 }
 
-div#divForm > form > p, dialog > form > p {
+dialog > form > p {
     width: 48%;
 }
 
-div#divForm > form > p > input, dialog > form > p > input {
+dialog > form > p > input {
     width: 100%;
     font-size: 0.95em;
     background-color: #ECEFE7;
@@ -473,15 +485,15 @@ div#divForm > form > p > input, dialog > form > p > input {
     transition: 0.4s;
 }
 
-div#divForm > form > p > input:focus, dialog > form > p > input:focus {
+dialog > form > p > input:focus {
     border: 2px solid #27684A;
 }
 
-div#divForm > form > p#add, dialog > form >  p#add {
+dialog > form >  p#add {
     width: 100%;
 }
 
-div#divForm > form > p > label, dialog > form > p > label {
+dialog > form > p > label {
     display: block;
     margin-bottom: 10px;
     padding-left: 2px;
@@ -489,7 +501,7 @@ div#divForm > form > p > label, dialog > form > p > label {
     font-weight: 550;
 }
 
-div#divForm > form > p > button, dialog > form > p > button {
+dialog > form > p > button {
     width: 100%;
     padding: 14px;
     border: none;
@@ -502,7 +514,7 @@ div#divForm > form > p > button, dialog > form > p > button {
     transition: 0.4s;
 }
 
-div#divForm > form > p > button:hover, dialog > form > p > button:hover {
+dialog > form > p > button:hover {
     cursor: pointer;
     background-color: #3C775C;
 }
