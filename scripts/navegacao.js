@@ -39,7 +39,9 @@ function clicou(botao) {
         $("#Animais").append(divtab);
 
     } else if (botao == "Relatório") {
-         divtab = montarTabela(2, `<h1>Relatório de Desempenho</h1><p>Alimentação e produção do rebanho</p>`);
+        montarGraficosRelatorio();
+
+        divtab = montarTabela(2, `<h1>Relatório de Desempenho</h1><p>Alimentação e produção do rebanho</p>`);
 
         $("#Relatório").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Relatório").append(divtab);

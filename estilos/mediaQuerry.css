@@ -15,9 +15,6 @@
         flex-basis: 49%;
     }
 
-    div#graficos > .card-grafico {
-        width: 80%;
-    }
 }
 
 @media screen and (max-width: 850px) {
@@ -83,6 +80,10 @@
     dialog {
         width: 80%;
     }
+
+    div#graficos > .card-grafico, div#graficosRelatorio > .card-grafico {
+        width: 80%;
+    }
     
 }
 
@@ -119,6 +120,10 @@
     }
 
     dialog {
+        width: 95%;
+    }
+
+    div#graficos > .card-grafico, div#graficosRelatorio > .card-grafico {
         width: 95%;
     }
 }

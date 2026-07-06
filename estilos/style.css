@@ -367,7 +367,7 @@ div#visaoGeral > div > p > span {
     border-radius: 12px;
 }
 
-div#graficos {
+div#graficos, div#graficosRelatorio {
     margin-top: 30px;
     display: flex;
     justify-content: center;
@@ -376,21 +376,21 @@ div#graficos {
     gap: 25px;
 }
 
-div#graficos > .card-grafico {
+div#graficos > .card-grafico, div#graficosRelatorio > .card-grafico {
     width: 45%;
     position: relative;
-    height: 400px;
-    min-width: 400px;
+    height: 300px;
+    min-width: 300px;
     background: white;
     border-radius: 16px;
     padding: 20px;
     
     box-shadow: 0 4px 15px rgba(0,0,0,.1);
-    transition: 0.3s;
+    transition: 0.4s ease-in-out;
 }
 
-div#graficos > .card-grafico:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.205);
+div#graficos > .card-grafico:hover, div#graficosRelatorio > .card-grafico:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.356);
 }
 
 .card-grafico canvas {

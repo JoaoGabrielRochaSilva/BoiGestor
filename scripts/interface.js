@@ -292,8 +292,16 @@ function editarTela() {
         raca: null,
         tipo: null,
         producao: null,
-        peso: null
+        peso: null,
+        producaoR: null,
+        alimentacaoR: null
     };
+
+//Destruir graficos criados
+function DestruirGrafico(grafico) {
+    if (grafico)
+        grafico.destroy();
+}
 
 //Monta os graficos dinamicamente no dashboard
 function montarGraficos() {
@@ -303,8 +311,7 @@ function montarGraficos() {
     const raca = document.getElementById("graficoRaca");
     const tipo = document.getElementById("graficoTipo");
 
-    if (graficos.vacina) 
-        graficos.vacina.destroy();
+    DestruirGrafico(graficos.vacina);
 
     graficos.vacina = new Chart(vacina, {
         type: "doughnut",
@@ -390,8 +397,7 @@ function montarGraficos() {
             
     });
 
-    if (graficos.producao)
-        graficos.producao.destroy();
+    DestruirGrafico(graficos.producao);
 
     graficos.producao = new Chart(producao, {
         type: "doughnut",
@@ -407,15 +413,15 @@ function montarGraficos() {
                 data: [contProdAcima(), contProdNormal(), contProdAbaixo()],
 
                 backgroundColor: [
-                    "#16A34A",
-                    "#F59E0B",
-                    "#DC2626"
+                    "#167ba38a",
+                    "#f50bbb86",
+                    "#dc26269a"
                 ],
 
                 borderColor: [
-                    "#15803D",
-                    "#B45309",
-                    "#B91C1C"
+                    "#00b7ff",
+                    "#ff00bf",
+                    "#ff0000"
                 ],
 
                 borderWidth: 1
@@ -479,8 +485,7 @@ function montarGraficos() {
 
     const contraca = contarPorCampo("raca");
 
-    if (graficos.raca)
-        graficos.raca.destroy();
+    DestruirGrafico(graficos.raca);
 
     graficos.raca = new Chart(raca, {
         type: "bar",
@@ -563,8 +568,7 @@ function montarGraficos() {
 
     const conttipo = contarPorCampo("tipo");
 
-    if (graficos.tipo)
-        graficos.tipo.destroy();
+    DestruirGrafico(graficos.tipo);
 
     graficos.tipo = new Chart(tipo, {
         type: "bar",
@@ -646,6 +650,184 @@ function montarGraficos() {
         }
     });
 
+}
+
+//Monta os graficos da aba relatório
+function montarGraficosRelatorio() {
+    const producao = document.getElementById("producaoR");
+    const alimentacao = document.getElementById("alimentacaoR");
+
+    DestruirGrafico(graficos.producaoR);
+
+    graficos.producaoR = new Chart(producao, {
+        type: "doughnut",
+
+        data: {
+            labels: [
+                "Acima do Normal",
+                "Normal",
+                "Abaixo do Normal"
+            ],
+
+            datasets: [{
+                data: [contProdAcima(), contProdNormal(), contProdAbaixo()],
+
+                backgroundColor: [
+                    "#16a34aa8",
+                    "#f59f0ba1",
+                    "#dc2626a6"
+                ],
+
+                borderColor: [
+                    "#00ff5e",
+                    "#ff6f00",
+                    "#ff0000"
+                ],
+
+                borderWidth: 1
+            }], 
+        },
+
+        options: {
+            cutout: "60%",
+            responsive: true,
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Produção do Rebanho",
+                    font: {
+                        size: 20,
+                        weight: "bold"
+                    }
+                },
+
+                legend: {
+                    position: "bottom",
+
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        },
+
+                        usePointStyle: true,
+                        pointStyle: "circle"
+                    }
+                },
+
+                tooltip: {
+
+                    backgroundColor: "#1F2937",
+
+                    titleFont: {
+                        size: 15
+                    },
+
+                    bodyFont: {
+                        size: 14
+                    }
+
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                delay: 300,
+                easing: "easeOutQuart"
+            }
+            
+        }
+  
+    });
+
+    DestruirGrafico(graficos.alimentacaoR);
+
+    graficos.alimentacaoR = new Chart(alimentacao, {
+        type: "doughnut",
+
+        data: {
+            labels: [
+                "Acima do Normal",
+                "Normal",
+                "Abaixo do Normal"
+            ],
+
+            datasets: [{
+                data: [contAlimentacao("Acima do Normal"), contAlimentacao("Normal"), contAlimentacao("Abaixo do Normal")],
+
+                backgroundColor: [
+                    "#37a316b2",
+                    "#f5690ba9",
+                    "#d626dc9c"
+                ],
+
+                borderColor: [
+                    "#3cff00",
+                    "#ff6600",
+                    "#f700ff"
+                ],
+
+                borderWidth: 1
+            }], 
+        },
+
+        options: {
+            cutout: "60%",
+            responsive: true,
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Alimentação do Rebanho",
+                    font: {
+                        size: 20,
+                        weight: "bold"
+                    }
+                },
+
+                legend: {
+                    position: "bottom",
+
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        },
+
+                        usePointStyle: true,
+                        pointStyle: "circle"
+                    }
+                },
+
+                tooltip: {
+
+                    backgroundColor: "#1F2937",
+
+                    titleFont: {
+                        size: 15
+                    },
+
+                    bodyFont: {
+                        size: 14
+                    }
+
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                delay: 300,
+                easing: "easeOutQuart"
+            }
+            
+        }
+  
+    });
 }
 
 async function iniciarSistema() {

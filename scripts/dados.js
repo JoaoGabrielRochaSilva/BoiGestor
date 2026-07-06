@@ -20,6 +20,16 @@ function contarPorCampo(campo) {
     return contagem;
 }
 
+//Conta algum status de alimentação no rebanho
+function contAlimentacao(status) {
+    let total = 0;
+    for (const boi of bois) {
+        if (boi.alimentacao == status)
+            total++;
+    }
+    return total;
+}
+
 // 🔥 Buscar bois do usuário logado
 async function carregarBois() {
     const usuarioId = localStorage.getItem("usuario_id");
