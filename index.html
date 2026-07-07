@@ -202,6 +202,67 @@
         <div class="mensagem">
             
         </div>
+
+        <dialog id="filterAnimais">
+            <button command="close" commandfor="filterAnimais"><i class="fa-solid fa-circle-xmark"></i></button>
+                <h2><i class="fa-solid fa-filter"></i> Filtro</h2>
+                <p>Utilize os campos para filtrar a exibição</p>
+                <form action="">
+                    <p>
+                        <label for="nomeFiltroAnimais">Nome</label>
+                        <input type="text" name="nomeFiltroAnimais" id="nomeFiltroAnimais" autocomplete="off" placeholder="Ex: Estrela">
+                    </p>
+                    <p>
+                        <label for="idFiltroAnimais">ID</label>
+                        <input type="number" name="idFiltroAnimais" id="idFiltroAnimais" autocomplete="off" placeholder="Ex: 1234">
+                    </p>
+                    <p>
+                        <label for="racaFiltroAnimais">Raça</label>
+                        <input type="text" name="racaFiltroAnimais" id="racaFiltroAnimais" autocomplete="off" placeholder="Ex: Nelore">
+                    </p>
+                    <p>
+                        <label for="tipoFiltroAnimais">Tipo</label>
+                        <input type="text" name="tipoFiltroAnimais" id="tipoFiltroAnimais" autocomplete="off" placeholder="Ex: Reprodutor">
+                    </p>
+                    <p>
+                        <label for="pesoFiltroAnimais">Peso (Kg)</label>
+                        <input type="number" name="pesoFiltroAnimais" id="pesoFiltroAnimais" placeholder="Ex: 850">
+                    </p>
+                    <p>
+                        <label for="statusVacina">Vacinação</label>
+                        <select name="statusVacina" id="statusVacina">
+                            <option value="Todos" selected>Todos</option>
+                            <option value="Em dia">Em dia</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Atrasada">Atrasada</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="statusProducao">Produção</label>
+                        <select name="statusProducao" id="statusProducao">
+                            <option value="Todos" selected>Todos</option>
+                            <option value="Acima do Normal">Acima do Normal</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Abaixo do Normal">Abaixo do Normal</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="statusAlimentacao">Alimentação</label>
+                        <select name="statusAlimentacao" id="statusAlimentacao">
+                            <option value="Todos" selected>Todos</option>
+                            <option value="Acima do Normal">Acima do Normal</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Abaixo do Normal">Abaixo do Normal</option>
+                        </select>
+                    </p>
+                    <p>
+                        <button type="button" onclick="aplicarFiltro()" command="close" commandfor="filterAnimais">
+                            <i class="fa-solid fa-filter"></i> Aplicar
+                        </button>
+                        <button type="button" onclick="limparFiltro()" command="close" commandfor="filterAnimais"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+                    </p>
+                </form>
+        </dialog>
     </main>
 </body>
 </html>

@@ -225,3 +225,67 @@ function removerAnimal() {
     html = `<h1>Animal Removido! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi removido do rebanho</p>`;
     mostraMensagem(html, 1);
 }
+
+//Filtra os bois com base no formulário de filtro
+function Filtrar() {
+    const nome = document.querySelector("#nomeFiltroAnimais").value.trim().toLowerCase();
+    const id = document.querySelector("#idFiltroAnimais").value.trim().toLowerCase();
+    const raca = document.querySelector("#racaFiltroAnimais").value.trim().toLowerCase();
+    const tipo = document.querySelector("#tipoFiltroAnimais").value.trim().toLowerCase();
+    const peso = Number(document.querySelector("#pesoFiltroAnimais").value.trim());
+    const statusVacina = document.querySelector("#statusVacina").value;
+    const statusProducao = document.querySelector("#statusProducao").value;
+    const statusAlimentacao = document.querySelector("#statusAlimentacao").value;
+
+    let vetorFiltro = bois;
+
+    if (nome.length != 0) {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.nome.toLowerCase().includes(nome);
+        });
+    }
+
+    if (id.length != 0) {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return String(boi.ID).includes(id);
+        });
+    }
+
+    if (raca.length != 0) {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.raca.toLowerCase().includes(raca);
+        });
+    }
+
+    if (tipo.length != 0) {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.tipo.toLowerCase().includes(tipo);
+        });
+    }
+
+    if (peso > 0) {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.peso >= peso;
+        });
+    }
+
+    if (statusVacina != "Todos") {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.vacina == statusVacina;
+        });
+    }
+
+    if (statusProducao != "Todos") {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.producao == statusProducao;
+        });
+    }
+
+    if (statusAlimentacao != "Todos") {
+        vetorFiltro = vetorFiltro.filter(boi => {
+            return boi.alimentacao == statusAlimentacao;
+        });
+    }
+
+    return vetorFiltro;
+}

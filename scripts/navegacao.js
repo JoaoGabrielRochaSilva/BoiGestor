@@ -27,7 +27,7 @@ function clicou(botao) {
         
         montarGraficos();
 
-        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p>`);
+        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, bois);
 
         $("#Painel").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Painel").append(divtab);
@@ -35,7 +35,7 @@ function clicou(botao) {
         
 
     } else if (botao == "Animais") {
-        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p>`);
+        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, bois);
 
         // Remove a tabela para manter ela atualizada
         $("#Painel").children(".divtable").remove();
@@ -46,7 +46,7 @@ function clicou(botao) {
     } else if (botao == "Relatório") {
         montarGraficosRelatorio();
 
-        divtab = montarTabela(2, `<h1>Relatório de Desempenho</h1><p>Alimentação e produção do rebanho</p>`);
+        divtab = montarTabela(2, `<h1>Relatório de Desempenho</h1><p>Alimentação e produção do rebanho</p> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, bois);
 
         $("#Relatório").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Relatório").append(divtab);
@@ -55,7 +55,7 @@ function clicou(botao) {
     } else if (botao == "Vacinação") {
         montarResumoVacina();
 
-         divtab = montarTabela(3, `<h1> <i class="fa-solid fa-syringe" style="color: darkgreen;"></i> Controle de Vacinação</h1>`);
+        divtab = montarTabela(3, `<h1> <i class="fa-solid fa-syringe" style="color: darkgreen;"></i> Controle de Vacinação</h1> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, bois);
 
         $("#Vacinação").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Vacinação").append(divtab);

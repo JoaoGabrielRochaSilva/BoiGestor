@@ -475,7 +475,7 @@ dialog > form > p {
     width: 48%;
 }
 
-dialog > form > p > input {
+dialog > form > p > input, select {
     width: 100%;
     font-size: 0.95em;
     background-color: #ECEFE7;
@@ -489,7 +489,7 @@ dialog > form > p > input {
     transition: 0.4s;
 }
 
-dialog > form > p > input:focus {
+dialog > form > p > input:focus, select:focus {
     border: 2px solid #27684A;
 }
 
@@ -520,7 +520,38 @@ dialog > form > p > button {
 
 dialog > form > p > button:hover {
     cursor: pointer;
-    background-color: #3C775C;
+    background-color: #2d5a46;
+}
+
+dialog#filterAnimais > form > p:last-child {
+    width: 100%;
+}
+
+dialog#filterAnimais > form > p > button {
+    width: 150px;
+    padding: 14px;
+    margin-top: 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: #27684A;
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.4s;
+}
+
+dialog#filterAnimais > form > p > button:hover {
+    background-color: #215a3f;
+}
+
+dialog#filterAnimais > form > p > button:last-child {
+    background-color: #E69200;  
+}
+
+dialog#filterAnimais > form > p > button:last-child:hover {
+    background-color: #c77e01; 
 }
 /*=============================================*/
 
@@ -634,6 +665,29 @@ div.divtable > p {
     padding: 0px 20px 0px 20px;
 }
 
+div.divtable > button {
+    width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background-color: #27684A;
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.219);
+    transition: 0.4s;
+}
+
+div.divtable > button:hover {
+    cursor: pointer;
+    background-color: #3C775C;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.356);
+}
+
 div.divtable > div {
     width: 100%;
     overflow-x: auto;
@@ -644,7 +698,7 @@ table {
     background-color: white;
     width: 100%;
     min-width: 625px;
-    margin-top: 15px;
+    margin-top: 0px;
     border-collapse: collapse;
     border: 1px solid #e3e4e2;
 }

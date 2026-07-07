@@ -27,7 +27,7 @@ function redimensionarMenu() {
 }
 
 // Monta diferentes tipos de tabela
-function montarTabela(tipo, htmlheader) {
+function montarTabela(tipo, htmlheader, bois) {
     let tabela;
     let divTable = document.createElement("div"); // Cria a div que vai receber a tabela
     let header = document.createElement("div"); // Cria a div que vai receber o header e a tabela
@@ -86,6 +86,78 @@ function montarTabela(tipo, htmlheader) {
     header.appendChild(divTable);
     header.setAttribute("class", "divtable");
     return header;
+}
+
+//Retorna a aba amostra
+function QualAba() {
+    const abas = document.querySelectorAll(".divs");
+    for (const aba of abas) {
+        if (aba.style.display == "block")
+            return aba.id;
+    }
+}
+
+//Aplica o filtro na tabela
+function aplicarFiltro() {
+    const vetorFiltro = Filtrar();
+    let divtab;
+    let idTable;
+    const Aba = QualAba();
+
+    if (Aba == "Painel") {
+        idTable = "#tableAnimais";
+
+        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${vetorFiltro.length} animais no rebanho</p> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, vetorFiltro);
+
+        // Remove a tabela para manter ela atualizada
+        $("#Painel").children(".divtable").remove(); 
+        $("#Painel").append(divtab);
+        
+    } else if (Aba == "Animais") {
+        idTable = "#tableAnimais";
+
+        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${vetorFiltro.length} animais no rebanho</p> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, vetorFiltro);
+
+        // Remove a tabela para manter ela atualizada
+        $("#Painel").children(".divtable").remove();
+        $("#Animais").children(".divtable").remove(); 
+        $("#Animais").append(divtab);
+
+    } else if (Aba == "Relatório") {
+        idTable = "#tableRelatorio";
+
+        divtab = montarTabela(2, `<h1>Relatório de Desempenho</h1><p>Alimentação e produção do rebanho</p> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, vetorFiltro);
+
+         // Remove a tabela para manter ela atualizada
+        $("#Relatório").children(".divtable").remove();
+        $("#Relatório").append(divtab);   
+
+    } else if (Aba == "Vacinação") {
+        idTable = "#tableVacina";
+
+        divtab = montarTabela(3, `<h1> <i class="fa-solid fa-syringe" style="color: darkgreen;"></i> Controle de Vacinação</h1> <button type="button" command="show-modal" commandfor="filterAnimais"><i class="fa-solid fa-filter"></i> Filtrar </button>`, vetorFiltro);
+
+        // Remove a tabela para manter ela atualizada
+        $("#Vacinação").children(".divtable").remove(); 
+        $("#Vacinação").append(divtab);
+    }
+
+    aparecerTabela(divtab, idTable);
+}
+
+//Limpa os filtros na tabela
+function limparFiltro() {
+    //Limpa os inputs do filtro
+    document.querySelector("#nomeFiltroAnimais").value = "";
+    document.querySelector("#idFiltroAnimais").value = "";
+    document.querySelector("#racaFiltroAnimais").value = "";
+    document.querySelector("#tipoFiltroAnimais").value = "";
+    document.querySelector("#pesoFiltroAnimais").value = "";
+    document.querySelector("#statusVacina").value = "Todos";
+    document.querySelector("#statusProducao").value = "Todos";
+    document.querySelector("#statusAlimentacao").value = "Todos";
+
+    aplicarFiltro();
 }
 
 // Resumo vacinação
@@ -230,7 +302,7 @@ function aparecerTabela(divTab, idTable) {
     aparecerAnimadoTabela(divTab);
     dataTable = new simpleDatatables.DataTable(document.querySelector(idTable), {
         searchable: false,
-        sortable: false,
+        sortable: true,
         paging: true,
 
         perPage: 10,
