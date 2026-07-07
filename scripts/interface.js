@@ -114,6 +114,15 @@ function montarResumoVacina() {
     aparecerAnimado(divPendente);
 }
 
+//Mostra um conjunto de divs em efeito casacata
+function mostraDivAtrasado(divs, intervalo) {
+    divs.forEach((div, indice)=> {
+        setTimeout(() => {
+            aparecerAnimado(div);
+        }, indice * intervalo);   
+    });   
+}
+
 // Resumo Geral do Painel
 function montarResumoGeral() {
     let divResumo = document.getElementById("visaoGeral");
@@ -135,16 +144,22 @@ function montarResumoGeral() {
     let divAlertas = document.createElement("div");
     divAlertas.innerHTML = `<p>Alertas <span style="color: #F59F0A; background-color: #FDECCE"><i class="fa-solid fa-triangle-exclamation"></i></span></p> <h1>${contVacinaAlerta()}</h1>`
 
+    //Coloca a classe card-resumo nas divs para agrupar elas
+    divTotal.setAttribute("class", "card-resumo");
+    divPeso.setAttribute("class", "card-resumo");
+    divVacina.setAttribute("class", "card-resumo");
+    divAlertas.setAttribute("class", "card-resumo");
+
     // Adiciona as divs acima na visão geral do painel
     divResumo.appendChild(divTotal);
-    aparecerAnimado(divTotal)
     divResumo.appendChild(divPeso);
-    aparecerAnimado(divPeso);
     divResumo.appendChild(divVacina);
-    aparecerAnimado(divVacina);
     divResumo.appendChild(divAlertas);
-    aparecerAnimado(divAlertas); 
-    
+
+    //Pega todas os cards
+    const divs = document.querySelectorAll(".card-resumo");
+    //Mostra os cards em efeito cascata
+    mostraDivAtrasado(divs, 200);
 }
 
 // Função que encolhe ou alonga o menu
