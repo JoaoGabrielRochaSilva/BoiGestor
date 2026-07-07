@@ -385,7 +385,7 @@ div#graficos > .card-grafico, div#graficosRelatorio > .card-grafico {
     position: relative;
     height: 300px;
     min-width: 300px;
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 16px;
     padding: 20px;
     
@@ -645,7 +645,6 @@ table {
     width: 100%;
     min-width: 625px;
     margin-top: 15px;
-    border-radius: 0px 0px 12px 12px;
     border-collapse: collapse;
     border: 1px solid #e3e4e2;
 }
@@ -665,7 +664,7 @@ table > tbody > tr > td {
     border-bottom: 1px solid #e3e4e2;
     font-size: 0.9em;
     font-weight: 500;
-    padding: 20px 10px 20px 10px;
+    padding: 20px 10px 20px 10px !important;
     text-align: left;
 }
 

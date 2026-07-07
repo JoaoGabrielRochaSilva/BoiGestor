@@ -35,7 +35,7 @@ function montarTabela(tipo, htmlheader) {
 
     // Tabela Painel e Animais
     if (tipo == 1) {
-        tabela = "<table> <thead> <tr>  <th>ID</th> <th>NOME</th> <th>RAÇA</th> <th>TIPO</th> <th>PESO</th> <th>VACINA</th> </tr> </thead> <tbody>";
+        tabela = "<table id='tableAnimais'> <thead> <tr>  <th>ID</th> <th>NOME</th> <th>RAÇA</th> <th>TIPO</th> <th>PESO</th> <th>VACINA</th> </tr> </thead> <tbody>";
   
         for(let i=0; i < bois.length; i++) {
             tabela += `<tr onclick="EditaRemove(${bois[i].ID}, event)"> <td>#${bois[i].ID}</td> <td>${bois[i].nome}</td>  <td>${bois[i].raca}</td> <td><span class="span-cinza">${bois[i].tipo}</span></td> <td>${bois[i].peso} Kg</td>`;
@@ -48,7 +48,7 @@ function montarTabela(tipo, htmlheader) {
                 tabela += `<td><span class="span-laranja">${bois[i].vacina}</span></td> </tr>`;
         }
     } else if (tipo == 2) { // Tabela Relatório
-        tabela = "<table> <thead> <tr> <th>NOME</th> <th>ID</th> <th>RAÇA</th> <th>ALIMENTAÇÂO</th> <th>PRODUÇÂO</th> </tr> </thead> <tbody>";
+        tabela = "<table id='tableRelatorio'> <thead> <tr> <th>NOME</th> <th>ID</th> <th>RAÇA</th> <th>ALIMENTAÇÂO</th> <th>PRODUÇÂO</th> </tr> </thead> <tbody>";
   
         for(let i=0; i < bois.length; i++) {
             tabela += `<tr> <td>${bois[i].nome}</td> <td>#${bois[i].ID}</td> <td>${bois[i].raca}</td>`;
@@ -68,7 +68,7 @@ function montarTabela(tipo, htmlheader) {
                 tabela += `<td><span class="span-vermelho">${bois[i].producao}</span></td> </tr>`;
         }    
     } else if (tipo == 3) { // Tabela Vacinação
-        tabela = "<table> <thead> <tr> <th>NOME</th> <th>ID</th> <th>RAÇA</th> <th>TIPO</th> <th>STATUS VACINA</th> </tr> </thead> <tbody>";
+        tabela = "<table id='tableVacina'> <thead> <tr> <th>NOME</th> <th>ID</th> <th>RAÇA</th> <th>TIPO</th> <th>STATUS VACINA</th> </tr> </thead> <tbody>";
   
         for(let i=0; i < bois.length; i++) {
             tabela += `<tr> <td>${bois[i].nome}</td> <td>#${bois[i].ID}</td> <td>${bois[i].raca}</td> <td>${bois[i].tipo}</td>`;
@@ -221,6 +221,32 @@ function aparecerAnimado(div) {
     }, 300, "linear");
 }
 
+//Personaliza a tabela com a biblioteca e depois faz ela aparecer
+let dataTable = null;
+function aparecerTabela(divTab, idTable) {
+    if (dataTable)
+        dataTable.destroy();
+
+    aparecerAnimadoTabela(divTab);
+    dataTable = new simpleDatatables.DataTable(document.querySelector(idTable), {
+        searchable: false,
+        sortable: false,
+        paging: true,
+
+        perPage: 10,
+        perPageSelect: false,
+
+        fixedHeight: false,
+
+        labels: {
+            placeholder: "Pesquisar...",
+            perPage: "{select} registros por página",
+            noRows: "Nenhum registro encontrado",
+            info: "Mostrando {start} até {end} de {rows} registros"
+        }
+    });
+}
+
 // Faz uma tabela aparecer de forma animada
 function aparecerAnimadoTabela(table) {
     $(table).css({
@@ -311,7 +337,7 @@ function editarTela() {
         producaoR: null,
         alimentacaoR: null
     };
-
+    
 //Destruir graficos criados
 function DestruirGrafico(grafico) {
     if (grafico)
@@ -398,6 +424,17 @@ function montarGraficos() {
                         size: 14
                     }
 
+                },
+
+                formatter(value, context) {
+
+                    const dados = context.chart.data.datasets[0].data;
+
+                    const total = dados.reduce((a, b) => a + b, 0);
+
+                    const porcentagem = (value / total) * 100;
+
+                    return porcentagem.toFixed(1) + "%";
                 }
 
             },

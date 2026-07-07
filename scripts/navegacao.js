@@ -20,6 +20,7 @@ $(window).ready(function() {
 function clicou(botao) {
     mostraDiv(botao);
     let divtab;
+    let idTable;
 
     if (botao == "Painel") {
         montarResumoGeral();
@@ -30,13 +31,17 @@ function clicou(botao) {
 
         $("#Painel").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Painel").append(divtab);
+        idTable = "#tableAnimais";
         
 
     } else if (botao == "Animais") {
-         divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p>`);
+        divtab = montarTabela(1, `<h1>Animais Cadastrados</h1><p>${bois.length} animais no rebanho</p>`);
 
-        $("#Animais").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
+        // Remove a tabela para manter ela atualizada
+        $("#Painel").children(".divtable").remove();
+        $("#Animais").children(".divtable").remove(); 
         $("#Animais").append(divtab);
+        idTable = "#tableAnimais";
 
     } else if (botao == "Relatório") {
         montarGraficosRelatorio();
@@ -45,6 +50,7 @@ function clicou(botao) {
 
         $("#Relatório").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Relatório").append(divtab);
+        idTable = "#tableRelatorio";
 
     } else if (botao == "Vacinação") {
         montarResumoVacina();
@@ -53,8 +59,9 @@ function clicou(botao) {
 
         $("#Vacinação").children(".divtable").remove(); // Remove a tabela para manter ela atualizada
         $("#Vacinação").append(divtab);
+        idTable = "#tableVacina";
 
     } 
-    aparecerAnimadoTabela(divtab);
+    aparecerTabela(divtab, idTable);
 }
 
