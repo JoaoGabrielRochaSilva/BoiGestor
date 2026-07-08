@@ -494,21 +494,19 @@ function montarGraficos() {
 
                     bodyFont: {
                         size: 14
+                    },
+
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.label}: ${value} (${percentage}%)`;
+                        }
                     }
 
                 },
-
-                formatter(value, context) {
-
-                    const dados = context.chart.data.datasets[0].data;
-
-                    const total = dados.reduce((a, b) => a + b, 0);
-
-                    const porcentagem = (value / total) * 100;
-
-                    return porcentagem.toFixed(1) + "%";
-                }
-
+        
             },
             animation: {
                 animateRotate: true,
@@ -517,8 +515,8 @@ function montarGraficos() {
                 easing: "easeOutQuart"
             }
 
-        },
-            
+        }
+          
     });
 
     DestruirGrafico(graficos.producao);
@@ -591,6 +589,15 @@ function montarGraficos() {
 
                     bodyFont: {
                         size: 14
+                    },
+
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.label}: ${value} (${percentage}%)`;
+                        }
                     }
 
                 }
@@ -658,6 +665,15 @@ function montarGraficos() {
 
                     bodyFont: {
                         size: 14
+                    },
+
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.dataset.label}: ${value} (${percentage}%)`;
+                        }
                     }
 
                 }
@@ -741,6 +757,15 @@ function montarGraficos() {
 
                     bodyFont: {
                         size: 14
+                    },
+
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.dataset.label}: ${value} (${percentage}%)`;
+                        }
                     }
 
                 }
@@ -851,6 +876,15 @@ function montarGraficosRelatorio() {
 
                     bodyFont: {
                         size: 14
+                    },
+
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.label}: ${value} (${percentage}%)`;
+                        }
                     }
 
                 }
@@ -937,6 +971,15 @@ function montarGraficosRelatorio() {
 
                     bodyFont: {
                         size: 14
+                    },
+
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.label}: ${value} (${percentage}%)`;
+                        }
                     }
 
                 }
