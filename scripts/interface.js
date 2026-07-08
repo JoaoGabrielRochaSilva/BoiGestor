@@ -1001,6 +1001,18 @@ async function iniciarSistema() {
     await carregarBois();
 
     clicou("Painel");
+
+    const nav = document.getElementById('menu-hamburguer');
+    const btn = document.getElementById('btnHamburguer');
+
+    nav.addEventListener('toggle', (event) => {
+        if (event.newState === 'open') {
+            btn.classList.add('aberto');
+        } else {
+            btn.classList.remove('aberto');
+        }
+    });
+
     const menuBtns = document.querySelectorAll(".menu-btn");
     menuBtns.forEach(botao => {
         botao.addEventListener("click", ()=> {
@@ -1009,5 +1021,6 @@ async function iniciarSistema() {
             botao.classList.add("ativo");
         });
     });
+    
     redimensionarMenu();
 }

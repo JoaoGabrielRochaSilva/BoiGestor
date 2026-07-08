@@ -44,16 +44,40 @@
                <i class="fa-solid fa-clipboard-list"></i> <span class="span-menu">Relatório</span>
             </button>
             <button type="button" onclick="clicou('Vacinação')" class="menu-btn">
-               <i class="fa-solid fa-syringe"></i> <sapn class="span-menu">Vacinação</sapn>
+               <i class="fa-solid fa-syringe"></i> <span class="span-menu">Vacinação</span>
             </button>
         </nav>
 
         <div id="footerMenu">
-            <button id="Sair" type="button" onclick="loginOut()">
+            <button class="Sair" type="button" onclick="loginOut()">
                <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="span-menu">Sair</span>
             </button>
             <button type="button" onclick="encolherMenu(this)" class="left" id="seta">
                 <i class="fa-solid fa-angle-left"></i>
+            </button>
+        </div>
+
+        <button type="button" id="btnHamburguer" commandfor="menu-hamburguer" command="toggle-popover">
+            <span class="linha"></span>
+            <span class="linha"></span>
+            <span class="linha"></span>
+        </button>
+
+        <div id="menu-hamburguer" popover>
+            <button type="button" onclick="clicou('Painel')" class="menu-btn ativo">
+               <i class="fa-regular fa-clipboard"></i> <span >Painel</span>
+            </button>
+            <button type="button" onclick="clicou('Animais')" class="menu-btn">
+               <i class="fa-solid fa-cow"></i> <span>Animais</span>
+            </button>
+            <button type="button" onclick="clicou('Relatório')" class="menu-btn">
+               <i class="fa-solid fa-clipboard-list"></i> <span >Relatório</span>
+            </button>
+            <button type="button" onclick="clicou('Vacinação')" class="menu-btn">
+               <i class="fa-solid fa-syringe"></i> <span >Vacinação</span>
+            </button>
+            <button class="Sair" type="button" onclick="loginOut()">
+               <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Sair</span>
             </button>
         </div>
     </header>
