@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boi Gestor</title>
+    <link rel="shortcut icon" href="imagens/Logo de Boi Gestor__.png" type="image/x-icon">
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="stylesheet" href="estilos/mediaQuerry.css">
     <script src="https://kit.fontawesome.com/c3634869e2.js" crossorigin="anonymous"></script>
@@ -33,16 +34,16 @@
             </div>
         </div>
         <nav>
-            <button type="button" onclick="clicou('Painel')" id="btnPainel">
+            <button type="button" onclick="clicou('Painel')" class="menu-btn ativo">
                <i class="fa-regular fa-clipboard"></i> <span class="span-menu">Painel</span>
             </button>
-            <button type="button" onclick="clicou('Animais')">
+            <button type="button" onclick="clicou('Animais')" class="menu-btn">
                <i class="fa-solid fa-cow"></i> <span class="span-menu">Animais</span>
             </button>
-            <button type="button" onclick="clicou('Relatório')">
+            <button type="button" onclick="clicou('Relatório')" class="menu-btn">
                <i class="fa-solid fa-clipboard-list"></i> <span class="span-menu">Relatório</span>
             </button>
-            <button type="button" onclick="clicou('Vacinação')">
+            <button type="button" onclick="clicou('Vacinação')" class="menu-btn">
                <i class="fa-solid fa-syringe"></i> <sapn class="span-menu">Vacinação</sapn>
             </button>
         </nav>
@@ -66,7 +67,7 @@
 
             </div>
 
-            <div id="img">
+            <div class="img" id="imgPainel">
                 <h1>Boi Gestor</h1>
                 <p>
                     Gerindo o que Move o Brasil — Modernize a gestão da sua pecuária com tecnologia inteligente.
@@ -92,6 +93,13 @@
         <div id="Animais" class="divs">
             <h1>Animais</h1>
             <h2>Todos os animais cadastrados</h2>
+
+            <div class="img" id="imgAnimais">
+                <h1>Animais</h1>
+                <p>
+                    Cuidando do que Move o Brasil — Gerencie seu rebanho com precisão e eficiência.
+                </p>
+            </div>
             <button type="button" command="show-modal" commandfor="adicionarModal">
                 <i class="fa-regular fa-square-plus"></i> Cadastrar Animal
             </button>
@@ -188,6 +196,13 @@
                     <canvas id="alimentacaoR"></canvas>
                 </div>
             </div>
+
+            <div class="img" id="imgRelatorio">
+                <h1>Relatórios</h1>
+                <p>
+                    Cada número conta uma história — Acompanhe o desempenho do seu rebanho com precisão.
+                </p>
+            </div>
         </div>
 
         <div id="Vacinação" class="divs">
@@ -196,6 +211,13 @@
 
             <div id="resumoVacinação">
 
+            </div>
+
+            <div class="img" id="imgVacinacao">
+                <h1>Vacinas</h1>
+                <p>
+                    Protegendo o que Move o Brasil — Mantenha a saúde do seu rebanho com tecnologia e organização.
+                </p>
             </div>
         </div>
 

@@ -73,7 +73,7 @@
         padding: 20px;
     }
 
-    div#img > p {
+    div.img > p {
         width: 70%;
     }
 
@@ -115,7 +115,7 @@
         width: 100%;
     }
 
-    div#img > p {
+    div.img > p {
         width: 100%;
     }
 

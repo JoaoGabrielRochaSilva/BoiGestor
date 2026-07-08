@@ -957,7 +957,14 @@ function montarGraficosRelatorio() {
 async function iniciarSistema() {
     await carregarBois();
 
-    $("#btnPainel").focus();
     clicou("Painel");
+    const menuBtns = document.querySelectorAll(".menu-btn");
+    menuBtns.forEach(botao => {
+        botao.addEventListener("click", ()=> {
+            console.log(botao);
+            menuBtns.forEach(b => b.classList.remove("ativo"));
+            botao.classList.add("ativo");
+        });
+    });
     redimensionarMenu();
 }
