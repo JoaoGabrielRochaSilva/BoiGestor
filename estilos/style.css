@@ -174,7 +174,7 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
     width: 100px;
     height: fit-content;
     border-radius: 8px;
-    border: none;
+    border: 1px solid #a0c85659;
     cursor: pointer;
     padding: 8px;
 }
