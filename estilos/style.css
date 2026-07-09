@@ -165,17 +165,18 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
 }
 
 #btnHamburguer {
+    background-color: #00000042;
     display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5px;
-    width: 90px;
-    height: 30px;
-    background: none;
+    width: 100px;
+    height: fit-content;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
-    padding: 0;
+    padding: 8px;
 }
 
 #btnHamburguer .linha {
@@ -201,12 +202,14 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
 
 #menu-hamburguer {
     top: 50px;
-    left: 70vw;
+    left: auto;
+    right: 16px;
     width: fit-content;
+    min-width: 120px;
     border: none;
-    background-color: #15281F;
-    padding: 5px;
-    border-radius: 12px;
+    background-color: #15281f;
+    padding: 7px;
+    border-radius: 7px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.486);
 }
 
@@ -216,10 +219,25 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
     margin-bottom: 5px;
     padding: 8px;
     text-align: left;
+    font-size: 0.9em;
+}
+
+#menu-hamburguer > button > i {
+    font-size: 1.1em;
+}
+
+#menu-hamburguer > div {
+    height: 1px;
+    width: 90%;
+    margin: auto;
+    background-color: #293D34;
+    margin-bottom: 5px;
 }
 
 #menu-hamburguer > .Sair {
     text-align: center;
+    padding: 6px;
+    margin-bottom: 0;
 }
 
 #menu-hamburguer > .Sair > i {
@@ -468,6 +486,7 @@ div#graficos > .card-grafico, div#graficosRelatorio > .card-grafico {
 
 div#graficos > .card-grafico:hover, div#graficosRelatorio > .card-grafico:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.356);
+    transform: translateY(-8px);
 }
 
 .card-grafico canvas {
