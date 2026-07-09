@@ -2,6 +2,42 @@
     Aqui ficam as funções que mexem com a interface (criação de elementos dinamicamente e animações)
 */
 
+let resizeTimeout;
+//Debounce
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(redimensionarMenu, 250);
+});
+
+//Função que sincroniza a opção selecionada dos menus
+function sincronizarMenus() {
+    const menuBtns = document.querySelectorAll(".menu-btn");
+    const menuHamburguerBtns = document.querySelectorAll(".btn-menuHamburguer");
+    const aba = QualAba();
+
+    menuBtns.forEach(botao => {
+        botao.classList.remove("ativo");
+    });
+
+    menuHamburguerBtns.forEach(botao =>{
+        botao.classList.remove("ativo");
+    });
+
+    if (aba == "Painel") {
+        menuBtns[0].classList.add("ativo");
+        menuHamburguerBtns[0].classList.add("ativo");
+    } else if (aba == "Animais") {
+        menuBtns[1].classList.add("ativo");
+        menuHamburguerBtns[1].classList.add("ativo");
+    } else if (aba == "Relatório") {
+        menuBtns[2].classList.add("ativo");
+        menuHamburguerBtns[2].classList.add("ativo");
+    } else if (aba == "Vacinação") {
+        menuBtns[3].classList.add("ativo");
+        menuHamburguerBtns[3].classList.add("ativo");
+    }
+}
+
 // Redimensiona o Menu para melhor responsividade
 function redimensionarMenu() {
     if (window.innerWidth <= 850) {
@@ -24,6 +60,12 @@ function redimensionarMenu() {
             encolherMenu($("#seta").get(0));
         }
     }
+
+    //Fecha o menu hamburguer caso a largura da janela aumente
+    if (window.innerWidth > 600 && document.querySelector("#menu-hamburguer").matches(':popover-open'))
+        document.querySelector("#menu-hamburguer").hidePopover();
+
+    sincronizarMenus();
 }
 
 // Monta diferentes tipos de tabela
@@ -1016,10 +1058,17 @@ async function iniciarSistema() {
     const menuBtns = document.querySelectorAll(".menu-btn");
     menuBtns.forEach(botao => {
         botao.addEventListener("click", ()=> {
-            console.log(botao);
             menuBtns.forEach(b => b.classList.remove("ativo"));
             botao.classList.add("ativo");
         });
+    });
+
+    const menuHamburguerBtns = document.querySelectorAll(".btn-menuHamburguer");
+    menuHamburguerBtns.forEach(botao => {
+        botao.addEventListener("click", ()=> {
+            menuHamburguerBtns.forEach(b => b.classList.remove("ativo"));
+            botao.classList.add("ativo");
+        })
     });
     
     redimensionarMenu();

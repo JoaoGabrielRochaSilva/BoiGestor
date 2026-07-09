@@ -50,7 +50,7 @@ function contVacinacao(status) {
     return total;
 }
 
-// 🔥 Buscar bois do usuário logado
+//Buscar bois do usuário logado
 async function carregarBois() {
     const usuarioId = localStorage.getItem("usuario_id");
 
@@ -102,7 +102,7 @@ function formatarTexto(texto) {
         .join(" ");
 }
 
-// 🔥 Adiciona um boi no banco (Supabase)
+//Adiciona um boi no banco (Supabase)
 async function adicionar() {
     let html;
 

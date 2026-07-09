@@ -30,6 +30,7 @@ body {
 /*=========== Configurações do header do site ===========*/
 header {
     background-color: #15281F;
+    overflow-y: hidden;
     display: flex;
     flex-flow: column wrap;
     grid-column: 1/2;
@@ -95,7 +96,10 @@ nav > button, #menu-hamburguer > button {
 
 nav > button > i, #menu-hamburguer > button > i {
     font-size: 1.3em;
-    margin-right: 0px;
+}
+
+nav > button > span {
+    margin-left: 5px;
 }
 
 nav > button:hover, #menu-hamburguer > button:hover {
@@ -111,7 +115,7 @@ nav > button:focus, #menu-hamburguer > button:focus {
     border-radius: 12px;   
 }
 
-.menu-btn.ativo {
+.menu-btn.ativo, #menu-hamburguer > .btn-menuHamburguer.ativo{
     color: #A0C856;
     background-color: #22392F;
     border-radius: 12px;  
@@ -201,8 +205,8 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
     width: fit-content;
     border: none;
     background-color: #15281F;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 5px;
+    border-radius: 12px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.486);
 }
 
@@ -210,8 +214,16 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
     display: block;
     width: 100%;
     margin-bottom: 5px;
-    padding: 10px;
+    padding: 8px;
     text-align: left;
+}
+
+#menu-hamburguer > .Sair {
+    text-align: center;
+}
+
+#menu-hamburguer > .Sair > i {
+    font-size: 1.1em;
 }
 
 /*=============================================*/
@@ -776,7 +788,7 @@ div.divtable > div {
 table {
     background-color: white;
     width: 100%;
-    min-width: 625px;
+    min-width: 650px;
     margin-top: 0px;
     border-collapse: collapse;
     border: 1px solid #e3e4e2;

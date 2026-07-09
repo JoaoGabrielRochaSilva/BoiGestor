@@ -24,7 +24,7 @@
     <script src="scripts/interface.js"></script>
     <script src="scripts/navegacao.js"></script>
 </head>
-<body onresize="redimensionarMenu()">
+<body>
     <header>
         <div id="cabeçalho">
             <img src="imagens/Logo de Boi Gestor__.png" alt="">
@@ -64,16 +64,16 @@
         </button>
 
         <div id="menu-hamburguer" popover>
-            <button type="button" onclick="clicou('Painel')" class="menu-btn ativo">
+            <button type="button" onclick="clicou('Painel')" class="btn-menuHamburguer ativo">
                <i class="fa-regular fa-clipboard"></i> <span >Painel</span>
             </button>
-            <button type="button" onclick="clicou('Animais')" class="menu-btn">
+            <button type="button" onclick="clicou('Animais')" class="btn-menuHamburguer">
                <i class="fa-solid fa-cow"></i> <span>Animais</span>
             </button>
-            <button type="button" onclick="clicou('Relatório')" class="menu-btn">
+            <button type="button" onclick="clicou('Relatório')" class="btn-menuHamburguer">
                <i class="fa-solid fa-clipboard-list"></i> <span >Relatório</span>
             </button>
-            <button type="button" onclick="clicou('Vacinação')" class="menu-btn">
+            <button type="button" onclick="clicou('Vacinação')" class="btn-menuHamburguer">
                <i class="fa-solid fa-syringe"></i> <span >Vacinação</span>
             </button>
             <button class="Sair" type="button" onclick="loginOut()">
