@@ -206,8 +206,8 @@ div#footerMenu > .Sair:hover, #menu-hamburguer > .Sair:hover {
     right: 16px;
     width: fit-content;
     min-width: 120px;
-    border: none;
     background-color: #15281f;
+    border: 3px solid #a0c856d5;
     padding: 7px;
     border-radius: 7px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.486);
