@@ -26,6 +26,15 @@ app.use(express.json());
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.DB_NAME || "boiGestorDB";
 
+// Confere se o .env foi carregado corretamente antes de tentar conectar.
+// Sem isso, o erro que aparece é bem confuso (undefined.startsWith).
+if (!uri) {
+    console.error("❌ MONGODB_URI não foi encontrada.");
+    console.error("   Verifique se existe um arquivo '.env' dentro da pasta 'backend/'");
+    console.error("   (mesmo nível de server.js), com a linha MONGODB_URI=... preenchida.");
+    process.exit(1);
+}
+
 const client = new MongoClient(uri);
 let db;
 
