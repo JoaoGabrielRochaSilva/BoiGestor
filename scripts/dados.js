@@ -54,16 +54,19 @@ function contVacinacao(status) {
 async function carregarBois() {
     const usuarioId = localStorage.getItem("usuario_id");
 
-    const { data, error } = await supabaseClient
-        .from("bois")
-        .select("*")
-        .eq("usuario_id", usuarioId);
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/bois?usuario_id=${usuarioId}`);
 
-    if (error) {
+        if (!resposta.ok) {
+            console.log("Erro ao buscar bois:", resposta.statusText);
+            bois = [];
+            return;
+        }
+
+        bois = await resposta.json();
+    } catch (error) {
         console.log("Erro ao buscar bois:", error);
         bois = [];
-    } else {
-        bois = data;
     }
 }
 
@@ -102,7 +105,7 @@ function formatarTexto(texto) {
         .join(" ");
 }
 
-//Adiciona um boi no banco (Supabase)
+//Adiciona um boi no banco (MongoDB, via backend)
 async function adicionar() {
     let html;
 
@@ -137,11 +140,22 @@ async function adicionar() {
         }    
     } else {
 
-        const { error } = await supabaseClient
-            .from("bois")
-            .insert([boiadd]);
+        try {
+            const resposta = await fetch(`${API_BASE_URL}/bois`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(boiadd)
+            });
 
-        if (error) {
+            const resultado = await resposta.json();
+
+            if (!resposta.ok || !resultado.success) {
+                console.log(resultado.error || resposta.statusText);
+                html = "<h1>Erro</h1><p>Erro ao salvar no banco</p>";
+                mostraMensagem(html, 2);
+                return;
+            }
+        } catch (error) {
             console.log(error);
             html = "<h1>Erro</h1><p>Erro ao salvar no banco</p>";
             mostraMensagem(html, 2);
@@ -166,7 +180,7 @@ async function adicionar() {
 }
 
 //Função que salva as alterações do formulário de edição
-function Salvar() {
+async function Salvar() {
     const nome = document.getElementById("nomeEdite").value.trim();
     const id = document.getElementById("idEdite").value.trim();
     const raca = formatarTexto(document.getElementById("raçaEdite").value);
@@ -191,13 +205,40 @@ function Salvar() {
         const indice = bois.indexOf(animalSelecionado);
 
         if (indice != -1) {
-            animalSelecionado.nome = nome;
-            animalSelecionado.ID = id;
-            animalSelecionado.raca = raca;
-            animalSelecionado.tipo = tipo;
-            animalSelecionado.peso = Number(peso);
+            const boiAtualizado = {
+                nome: nome,
+                ID: id,
+                raca: raca,
+                tipo: tipo,
+                peso: Number(peso)
+            };
 
+            try {
+                const resposta = await fetch(`${API_BASE_URL}/bois/${animalSelecionado.id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(boiAtualizado)
+                });
+
+                const resultado = await resposta.json();
+
+                if (!resposta.ok || !resultado.success) {
+                    console.log(resultado.error || resposta.statusText);
+                    html = "<h1>Erro</h1><p>Erro ao alterar no banco</p>";
+                    mostraMensagem(html, 2);
+                    return;
+                }
+            } catch (error) {
+                console.log(error);
+                html = "<h1>Erro</h1><p>Erro ao alterar no banco</p>";
+                mostraMensagem(html, 2);
+                return;
+            }
+
+            // Atualiza a cópia local só depois de confirmar que salvou no banco
+            Object.assign(animalSelecionado, boiAtualizado);
             bois[indice] = animalSelecionado;
+
             html = `<h1>Animal Atualizado! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi alterado</p>`;
             mostraMensagem(html, 1);
         } else {
@@ -216,7 +257,28 @@ function Salvar() {
 }
 
 //Função que remove um animal do rebanho
-function removerAnimal() {
+async function removerAnimal() {
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/bois/${animalSelecionado.id}`, {
+            method: "DELETE"
+        });
+
+        const resultado = await resposta.json();
+
+        if (!resposta.ok || !resultado.success) {
+            console.log(resultado.error || resposta.statusText);
+            html = "<h1>Erro</h1><p>Erro ao remover do banco</p>";
+            mostraMensagem(html, 2);
+            return;
+        }
+    } catch (error) {
+        console.log(error);
+        html = "<h1>Erro</h1><p>Erro ao remover do banco</p>";
+        mostraMensagem(html, 2);
+        return;
+    }
+
+    // Remove da lista local só depois de confirmar que removeu do banco
     for(let i=0; i < bois.length; i++) {
         if (bois[i].ID == animalSelecionado.ID)
             bois.splice(i, 1);

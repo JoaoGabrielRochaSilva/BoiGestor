@@ -40,6 +40,10 @@ function sincronizarMenus() {
 
 // Redimensiona o Menu para melhor responsividade
 function redimensionarMenu() {
+    // Essa função mexe no menu lateral, que só existe no index.html.
+    // Em páginas sem esse menu (ex: Login/login.html), não faz nada.
+    if ($("#seta").length === 0) return;
+
     if (window.innerWidth <= 850) {
         $(".span-menu").hide();
         $("header").css("width", "100%");
@@ -62,8 +66,9 @@ function redimensionarMenu() {
     }
 
     //Fecha o menu hamburguer caso a largura da janela aumente
-    if (window.innerWidth > 600 && document.querySelector("#menu-hamburguer").matches(':popover-open'))
-        document.querySelector("#menu-hamburguer").hidePopover();
+    const menuHamburguer = document.querySelector("#menu-hamburguer");
+    if (window.innerWidth > 600 && menuHamburguer && menuHamburguer.matches(':popover-open'))
+        menuHamburguer.hidePopover();
 
     sincronizarMenus();
 }
