@@ -145,12 +145,13 @@ async function adicionar() {
     ) {
         if (idDuplicado) {
             html = `<h1>Id duplicado</h1><p>Já tem um animal com este Id #${boiadd.ID}</p>`;
-            mostraMensagem(html, 2);   
         } else {
             html = "<h1>Dados inválidos</h1>" +
                 "<p>Preencha todos os campos e informe um peso válido, maior que zero.</p>";
-            mostraMensagem(html, 2);
-        }    
+        }
+
+        mostraMensagem(html, 2);  
+
     } else {
 
         cadastrando = true // Bloqueia quando passar da validação
@@ -193,7 +194,7 @@ async function adicionar() {
             document.getElementById("adicionarModal").close(); //Fechar modal de cadastro
 
             // Atualiza lista local
-            await carregarBois();
+            await atualizarTabela();
 
         } catch (error) {
             console.log(error);
@@ -213,39 +214,65 @@ async function adicionar() {
     }
 }
 
-//Função que salva as alterações do formulário de edição
+
+let salvando = false; // Guarda se uma alteração está sendo salva
+
+// Função que salva as alterações do formulário de edição
 async function Salvar() {
+    let html;
+
+    if (salvando) {
+        return;
+    }
+
     const nome = document.getElementById("nomeEdite").value.trim();
     const id = document.getElementById("idEdite").value.trim();
     const raca = formatarTexto(document.getElementById("raçaEdite").value);
     const tipo = formatarTexto(document.getElementById("tipoEdite").value);
-    const peso = document.getElementById("pesoEdite").value.trim();
+    const pesoTexto = document.getElementById("pesoEdite").value.trim();
+    const peso = Number(pesoTexto);
+
+    const idDuplicado = validarID(id) && id !== animalSelecionado.ID;
 
     if (
-        nome.length == 0 ||
-        id.length == 0 ||
-        raca.length == 0 ||
-        tipo.length == 0 ||
-        validarID(id) && id != animalSelecionado.ID
+        nome.length === 0 ||
+        id.length === 0 ||
+        raca.length === 0 ||
+        tipo.length === 0 ||
+        pesoTexto.length === 0 ||
+        !Number.isFinite(peso) ||
+        peso <= 0 ||
+        idDuplicado
     ) {
-        if (validarID(id) && id != animalSelecionado.ID) {
-            html = `<h1>Id duplicado</h1><p>Já tem um animal com este Id #${id}</p>`;
-            mostraMensagem(html, 2);   
+        if (idDuplicado) {
+            html = `<h1>ID duplicado</h1><p>Já tem um animal com este ID #${id}</p>`;
         } else {
-            html = "<h1>Campos Obrigatórios</h1><p>Preencha todos os campos antes de alterar</p>";
-            mostraMensagem(html, 2);
+            html = "<h1>Dados inválidos</h1><p>Preencha todos os campos e informe um peso válido, maior que zero.</p>";   
         }
+
+        mostraMensagem(html, 2);
+
     } else {
         const indice = bois.indexOf(animalSelecionado);
 
-        if (indice != -1) {
+        if (indice !== -1) {
             const boiAtualizado = {
                 nome: nome,
                 ID: id,
                 raca: raca,
                 tipo: tipo,
-                peso: Number(peso)
+                peso: peso
             };
+
+            salvando = true; // Bloqueia novas execuções
+
+            // Bloqueia o botão de salvar
+            const botao = document.getElementById("btnSalvarEdicao");
+
+            if (botao) {
+                botao.disabled = true;
+                botao.innerHTML = '<i class="fa-solid fa-rotate"></i> Salvando...';
+            }
 
             try {
                 const resposta = await fetch(`${API_BASE_URL}/bois/${animalSelecionado.id}`, {
@@ -262,36 +289,48 @@ async function Salvar() {
                     mostraMensagem(html, 2);
                     return;
                 }
+
+                // Atualiza a cópia local só depois de confirmar que salvou no banco
+                await atualizarTabela();
+
+                html = `<h1>Animal Atualizado! 🐮</h1><p>${boiAtualizado.nome} de ID #${boiAtualizado.ID} foi alterado</p>`;
+                mostraMensagem(html, 1);
+
+                // Limpar inputs
+                document.getElementById("nomeEdite").value = "";
+                document.getElementById("idEdite").value = "";
+                document.getElementById("raçaEdite").value = "";
+                document.getElementById("tipoEdite").value = "";
+                document.getElementById("pesoEdite").value = "";
+
+                document.getElementById("editarModal").close();
+
             } catch (error) {
                 console.log(error);
                 html = "<h1>Erro</h1><p>Erro ao alterar no banco</p>";
                 mostraMensagem(html, 2);
                 return;
+
+            } finally {
+                // Libera o salvamento mesmo se ocorrer um erro
+                salvando = false;
+
+                if (botao) {
+                    botao.disabled = false;
+                    botao.innerHTML = `<i class="fa-regular fa-pen-to-square"></i> Salvar Alterações`;
+                }
             }
-
-            // Atualiza a cópia local só depois de confirmar que salvou no banco
-            Object.assign(animalSelecionado, boiAtualizado);
-            bois[indice] = animalSelecionado;
-
-            html = `<h1>Animal Atualizado! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi alterado</p>`;
-            mostraMensagem(html, 1);
         } else {
             html = "<h1>ID não encontrado</h1><p>Erro ao tentar buscar o ID, tente novamente...</p>";
             mostraMensagem(html, 2);
         }
-        // Limpar inputs
-        document.getElementById("nomeEdite").value = "";
-        document.getElementById("idEdite").value = "";
-        document.getElementById("raçaEdite").value = "";
-        document.getElementById("tipoEdite").value = "";
-        document.getElementById("pesoEdite").value = "";
-
-        document.getElementById("editarModal").close(); //Fechar modal de edição
     }
 }
 
+
 //Função que remove um animal do rebanho
 async function removerAnimal() {
+    let html;
     try {
         const resposta = await fetch(`${API_BASE_URL}/bois/${animalSelecionado.id}`, {
             method: "DELETE"
@@ -312,11 +351,8 @@ async function removerAnimal() {
         return;
     }
 
-    // Remove da lista local só depois de confirmar que removeu do banco
-    for(let i=0; i < bois.length; i++) {
-        if (bois[i].ID == animalSelecionado.ID)
-            bois.splice(i, 1);
-    }
+    // Atualiza a tabela após confirmar a exclusão no banco
+    await atualizarTabela();
 
     html = `<h1>Animal Removido! 🐮</h1><p>${animalSelecionado.nome} de ID #${animalSelecionado.ID} foi removido do rebanho</p>`;
     mostraMensagem(html, 1);
