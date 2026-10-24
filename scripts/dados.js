@@ -105,18 +105,24 @@ function formatarTexto(texto) {
         .join(" ");
 }
 
+let cadastrando = false; //Guarda se o banco está realizando o cadastro ou não
+
 //Adiciona um boi no banco (MongoDB, via backend)
 async function adicionar() {
     let html;
+
+    if (cadastrando) {
+        return;
+    }
 
     let boiadd = {
         nome: document.getElementById("nome").value.trim(),
         ID: document.getElementById("id").value.trim(),
         raca: formatarTexto(document.getElementById("raça").value),
         tipo: formatarTexto(document.getElementById("tipo").value),
-        peso: Number(document.getElementById("peso").value.trim()),
+        peso: document.getElementById("peso").value.trim(),
 
-        // 🔥 VALORES AUTOMÁTICOS
+        //VALORES AUTOMÁTICOS por enquanto
         alimentacao: "Normal",
         producao: "Normal",
         vacina: "Em dia",
@@ -124,21 +130,39 @@ async function adicionar() {
         usuario_id: localStorage.getItem("usuario_id")
     };
 
+    const peso = Number(boiadd.peso);
+    const idDuplicado = validarID(boiadd.ID);
+
     if (
-        boiadd.nome.length == 0 ||
-        boiadd.ID.length == 0 ||
-        boiadd.raca.length == 0 ||
-        boiadd.tipo.length == 0 ||
-        validarID(boiadd.ID)
+        boiadd.nome.length === 0 ||
+        boiadd.ID.length === 0 ||
+        boiadd.raca.length === 0 ||
+        boiadd.tipo.length === 0 ||
+        boiadd.peso.length === 0 ||
+        !Number.isFinite(peso) ||
+        peso <= 0 ||
+        idDuplicado
     ) {
-        if (validarID(boiadd.ID)) {
+        if (idDuplicado) {
             html = `<h1>Id duplicado</h1><p>Já tem um animal com este Id #${boiadd.ID}</p>`;
             mostraMensagem(html, 2);   
         } else {
-            html = "<h1>Campos Obrigatórios</h1><p>Preencha todos os campos antes de adicionar</p>";
+            html = "<h1>Dados inválidos</h1>" +
+                "<p>Preencha todos os campos e informe um peso válido, maior que zero.</p>";
             mostraMensagem(html, 2);
         }    
     } else {
+
+        cadastrando = true // Bloqueia quando passar da validação
+        
+        //Bloqueia o botão de cadastro
+        const botao = document.getElementById("btnCadastrar");
+        if (botao) {
+            botao.disabled = true;
+            botao.innerHTML = `<i class="fa-solid fa-rotate"></i>Cadastrando...`;
+        }
+
+        boiadd.peso = peso;
 
         try {
             const resposta = await fetch(`${API_BASE_URL}/bois`, {
@@ -155,27 +179,37 @@ async function adicionar() {
                 mostraMensagem(html, 2);
                 return;
             }
+
+            html = `<h1>Animal Cadastrado! 🐮</h1><p>${boiadd.nome} de ID #${boiadd.ID} foi adicionado ao rebanho</p>`;
+            mostraMensagem(html, 1);
+
+            // Limpar inputs
+            document.getElementById("nome").value = "";
+            document.getElementById("id").value = "";
+            document.getElementById("raça").value = "";
+            document.getElementById("tipo").value = "";
+            document.getElementById("peso").value = "";
+
+            document.getElementById("adicionarModal").close(); //Fechar modal de cadastro
+
+            // Atualiza lista local
+            await carregarBois();
+
         } catch (error) {
             console.log(error);
             html = "<h1>Erro</h1><p>Erro ao salvar no banco</p>";
             mostraMensagem(html, 2);
             return;
+
+        } finally {
+            // Libera o cadastro mesmo se ocorrer um erro
+            cadastrando = false;
+
+            if (botao) {
+                botao.disabled = false;
+                botao.innerHTML = `<i class="fa-regular fa-square-plus"></i> Cadastrar Animal`;
+            }
         }
-
-        html = `<h1>Animal Cadastrado! 🐮</h1><p>${boiadd.nome} de ID #${boiadd.ID} foi adicionado ao rebanho</p>`;
-        mostraMensagem(html, 1);
-
-        // Limpar inputs
-        document.getElementById("nome").value = "";
-        document.getElementById("id").value = "";
-        document.getElementById("raça").value = "";
-        document.getElementById("tipo").value = "";
-        document.getElementById("peso").value = "";
-
-        document.getElementById("adicionarModal").close(); //Fechar modal de cadastro
-
-        // 🔥 Atualiza lista local
-        await carregarBois();
     }
 }
 
