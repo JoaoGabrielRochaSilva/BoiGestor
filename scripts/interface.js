@@ -73,6 +73,39 @@ function redimensionarMenu() {
     sincronizarMenus();
 }
 
+// Atualiza a tabela de animais na interface
+async function atualizarTabela() {
+    let divtab;
+    let idTable;
+    const aba = QualAba();
+    await carregarBois();
+
+    divtab = montarTabela(
+        1,
+        `<h1>Animais Cadastrados</h1>
+        <p>${bois.length} animais no rebanho</p>
+        <button type="button" command="show-modal" commandfor="filterAnimais">
+            <i class="fa-solid fa-filter"></i> Filtrar
+        </button>`,
+        bois
+    );
+
+    // Remove as tabelas antigas
+    $("#Painel").children(".divtable").remove();
+    $("#Animais").children(".divtable").remove();
+
+    // Adiciona a tabela atualizada
+    if (aba == "Painel") {
+        $("#Painel").append(divtab);
+    } else if (aba == "Animais") {
+        $("#Animais").append(divtab);
+    }
+
+    idTable = "#tableAnimais";
+
+    aparecerTabela(divtab, idTable);
+}
+
 // Monta diferentes tipos de tabela
 function montarTabela(tipo, htmlheader, bois) {
     let tabela;
