@@ -23,19 +23,24 @@ function sincronizarMenus() {
         botao.classList.remove("ativo");
     });
 
-    if (aba == "Painel") {
+    if (aba == "Estatistica") {
         menuBtns[0].classList.add("ativo");
         menuHamburguerBtns[0].classList.add("ativo");
-    } else if (aba == "Animais") {
+    }   else if (aba == "Painel") {
         menuBtns[1].classList.add("ativo");
         menuHamburguerBtns[1].classList.add("ativo");
-    } else if (aba == "Relatório") {
+    } else if (aba == "Animais") {
         menuBtns[2].classList.add("ativo");
         menuHamburguerBtns[2].classList.add("ativo");
-    } else if (aba == "Vacinação") {
+    } else if (aba == "Relatório") {
         menuBtns[3].classList.add("ativo");
         menuHamburguerBtns[3].classList.add("ativo");
+    } else if (aba == "Vacinação") {
+        menuBtns[4].classList.add("ativo");
+        menuHamburguerBtns[4].classList.add("ativo");
     }
+
+    
 }
 
 // Redimensiona o Menu para melhor responsividade

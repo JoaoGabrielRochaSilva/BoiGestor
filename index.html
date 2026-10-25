@@ -33,6 +33,9 @@
             </div>
         </div>
         <nav>
+            <button type="button" onclick="clicou('Estatistica')" class="menu-btn">
+               <i class="fa-solid fa-chart-simple"></i> <span class="span-menu">Estatistica</span>
+            </button>
             <button type="button" onclick="clicou('Painel')" class="menu-btn ativo">
                <i class="fa-regular fa-clipboard"></i> <span class="span-menu">Painel</span>
             </button>
@@ -63,6 +66,9 @@
         </button>
 
         <div id="menu-hamburguer" popover>
+             <button type="button" onclick="clicou('Estatistica')" class="btn-menuHamburguer">
+               <i class="fa-solid fa-chart-simple"></i> <span>Estatistica</span>
+            </button>
             <button type="button" onclick="clicou('Painel')" class="btn-menuHamburguer ativo">
                <i class="fa-regular fa-clipboard"></i> <span >Painel</span>
             </button>
@@ -85,6 +91,10 @@
     </header>
 
     <main>
+        <div id="Estatistica" class="divs dashboard-container">
+            <iframe title="BoiGestor" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMDEyOTA1YjEtYzUxZS00Yjc5LWI4ODctY2Y0NGY1MzhlZDIzIiwidCI6IjgzYmE0NWIzLTEwYWQtNDQ1Mi1hNDAxLTdiZmQwN2I3NDY4OCJ9" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
         <div id="Painel" class="divs">
             <h1>Painel Geral</h1>
             <h2>Visão geral do seu rebanho</h2>

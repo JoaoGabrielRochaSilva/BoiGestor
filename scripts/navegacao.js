@@ -61,7 +61,7 @@ function clicou(botao) {
         $("#Vacinação").append(divtab);
         idTable = "#tableVacina";
 
-    } 
+    }
     aparecerTabela(divtab, idTable);
 }
 
