@@ -122,10 +122,9 @@ async function adicionar() {
         tipo: formatarTexto(document.getElementById("tipo").value),
         peso: document.getElementById("peso").value.trim(),
 
-        //VALORES AUTOMÁTICOS por enquanto
-        alimentacao: "Normal",
-        producao: "Normal",
-        vacina: "Em dia",
+        alimentacao: document.getElementById("alimentacao").value,
+        producao: document.getElementById("producao").value,
+        vacina: document.getElementById("vacina").value,
 
         usuario_id: localStorage.getItem("usuario_id")
     };
@@ -231,6 +230,9 @@ async function Salvar() {
     const tipo = formatarTexto(document.getElementById("tipoEdite").value);
     const pesoTexto = document.getElementById("pesoEdite").value.trim();
     const peso = Number(pesoTexto);
+    const alimentacao = document.getElementById("alimentacaoEdite").value;
+    const producao = document.getElementById("producaoEdite").value;
+    const vacina = document.getElementById("vacinaEdite").value;
 
     const idDuplicado = validarID(id) && id !== animalSelecionado.ID;
 
@@ -261,7 +263,10 @@ async function Salvar() {
                 ID: id,
                 raca: raca,
                 tipo: tipo,
-                peso: peso
+                peso: peso,
+                alimentacao: alimentacao,
+                producao: producao,
+                vacina: vacina
             };
 
             salvando = true; // Bloqueia novas execuções

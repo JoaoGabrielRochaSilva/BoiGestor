@@ -570,7 +570,7 @@ dialog > form > p {
 dialog > form > p > input, select {
     width: 100%;
     font-size: 0.95em;
-    background-color: #ECEFE7;
+    background-color: #dbdbdb;
     height: 42px;
     border-radius: 12px;
     padding: 10px;

@@ -151,9 +151,38 @@
                         <label for="tipo">Tipo</label>
                         <input type="text" name="tipo" id="tipo" autocomplete="off" placeholder="Ex: Reprodutor">
                     </p>
-                    <p id="add">
+                    <p>
+                        <label for="vacina">Vacina</label>
+                        <select name="vacina" id="vacina">
+                            <option value="Em dia" selected>Em dia</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Atrasada">Atrasada</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="producao">Produção</label>
+                        <select name="producao" id="producao">
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Acima do Normal">Acima do Normal</option>
+                            <option value="Abaixo do Normal">Abaixo do Normal</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="alimentacao">Alimentação</label>
+                        <select name="alimentacao" id="alimentacao">
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Acima do Normal">Acima do Normal</option>
+                            <option value="Abaixo do Normal">Abaixo do Normal</option>
+                        </select>
+                    </p>
+                    
+                    <p>
                         <label for="peso">Peso (Kg)</label>
                         <input type="number" name="peso" id="peso" placeholder="Ex: 850">
+                    </p>
+
+                    <p id="add">
                         <button type="button" onclick="adicionar()" id="btnCadastrar">
                             <i class="fa-regular fa-square-plus"></i> Cadastrar Animal
                         </button>
@@ -188,9 +217,38 @@
                         <label for="tipoEdite">Tipo</label>
                         <input type="text" name="tipoEdite" id="tipoEdite" autocomplete="off" placeholder="Ex: Reprodutor">
                     </p>
-                    <p id="add">
+                    <p>
+                        <label for="vacinaEdite">Vacina</label>
+                        <select name="vacinaEdite" id="vacinaEdite">
+                            <option value="Em dia" selected>Em dia</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Atrasada">Atrasada</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="producaoEdite">Produção</label>
+                        <select name="producaoEdite" id="producaoEdite">
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Acima do Normal">Acima do Normal</option>
+                            <option value="Abaixo do Normal">Abaixo do Normal</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="alimentacaoEdite">Alimentação</label>
+                        <select name="alimentacaoEdite" id="alimentacaoEdite">
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Acima do Normal">Acima do Normal</option>
+                            <option value="Abaixo do Normal">Abaixo do Normal</option>
+                        </select>
+                    </p>
+                    
+                    <p>
                         <label for="pesoEdite">Peso (Kg)</label>
                         <input type="number" name="pesoEdite" id="pesoEdite" placeholder="Ex: 850">
+                    </p>
+
+                    <p id="add">
                         <button type="button" onclick="Salvar()" id="btnSalvarEdicao">
                             <i class="fa-regular fa-pen-to-square"></i> Salvar Alterações
                         </button>
