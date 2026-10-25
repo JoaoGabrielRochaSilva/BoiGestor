@@ -477,6 +477,9 @@ function editarTela() {
     document.getElementById("raçaEdite").value = animalSelecionado.raca;
     document.getElementById("tipoEdite").value = animalSelecionado.tipo;
     document.getElementById("pesoEdite").value = animalSelecionado.peso;
+    document.getElementById("alimentacaoEdite").value = animalSelecionado.alimentacao;
+    document.getElementById("producaoEdite").value = animalSelecionado.producao;
+    document.getElementById("vacinaEdite").value = animalSelecionado.vacina;
 }
 
 //Graficos armazenados
