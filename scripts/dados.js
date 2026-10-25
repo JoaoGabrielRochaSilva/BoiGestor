@@ -234,7 +234,7 @@ async function Salvar() {
     const producao = document.getElementById("producaoEdite").value;
     const vacina = document.getElementById("vacinaEdite").value;
 
-    const idDuplicado = validarID(id) && id !== animalSelecionado.ID;
+    const idDuplicado = validarID(id) && String(id) !== String(animalSelecionado.ID);
 
     if (
         nome.length === 0 ||
