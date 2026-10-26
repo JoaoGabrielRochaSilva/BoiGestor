@@ -89,6 +89,12 @@
     div#graficos > .card-grafico, div#graficosRelatorio > .card-grafico {
         width: 80%;
     }
+
+     .dashboard-container {
+        padding-bottom: 0;
+        height: 100vh;
+        min-height: 700px;
+    }
     
 }
 
