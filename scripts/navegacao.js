@@ -61,6 +61,11 @@ function clicou(botao) {
         $("#Vacinação").append(divtab);
         idTable = "#tableVacina";
 
+    } else if (botao === 'Estatistica') {
+        const iframe = document.querySelector('#Estatistica iframe');
+        if (!iframe.src) {
+            iframe.src = "https://app.powerbi.com/view?r=eyJrIjoiNDg3M2FlMDktZjYxMS00YjczLWIxYzAtZTlhOTJjNTc5ZWVhIiwidCI6IjgzYmE0NWIzLTEwYWQtNDQ1Mi1hNDAxLTdiZmQwN2I3NDY4OCJ9&pageView=oneColumn";
+        }
     }
     aparecerTabela(divtab, idTable);
 }
