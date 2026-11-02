@@ -38,6 +38,53 @@ if (!uri) {
 const client = new MongoClient(uri);
 let db;
 
+/* ---------------------------------------------------
+   ROTA: BUSCAR HISTÓRICO DE UM BOI
+   GET /api/historico/:boi_id
+--------------------------------------------------- */
+app.get("/api/historico/:boi_id", async (req, res) => {
+    try {
+        const { boi_id } = req.params;
+        
+        // Busca os registros na coleção correta ordenando pelos mais recentes
+        const historico = await db.collection("historicoBois")
+            .find({ boi_id: boi_id })
+            .sort({ data_alteracao: -1 })
+            .toArray();
+
+        res.json(historico.map(formatarDocumento));
+    } catch (erro) {
+        console.error("Erro no GET /api/historico:", erro);
+        res.status(500).json({ error: "Erro interno do servidor" });
+    }
+});
+
+/* ---------------------------------------------------
+   ROTA: ADICIONAR REGISTRO NO HISTÓRICO
+   POST /api/historico
+--------------------------------------------------- */
+app.post("/api/historico", async (req, res) => {
+    try {
+        const { id_boi, id_usuario, peso, producao, alimentacao, data } = req.body;
+        
+        const novoRegistro = {
+            boi_id: id_boi, // String, para bater com o GET e o PUT
+            usuario_id: id_usuario,
+            peso: Number(peso),
+            producao: producao || "Normal",
+            alimentacao: alimentacao || "Normal",
+            data_alteracao: new Date(data), // Nome padrão do campo de data
+            tipo_registro: "peso_manual"
+        };
+
+        const resultado = await db.collection("historicoBois").insertOne(novoRegistro);
+        res.json({ success: true, registro: formatarDocumento({ _id: resultado.insertedId, ...novoRegistro }) });
+    } catch (erro) {
+        console.error("Erro no POST /api/historico:", erro);
+        res.status(500).json({ success: false, error: "Erro interno do servidor" });
+    }
+});
+
 // Conecta no MongoDB Atlas uma única vez, quando o servidor sobe
 async function conectarBanco() {
     try {
@@ -145,7 +192,7 @@ app.post("/api/bois", async (req, res) => {
 });
 
 /* ---------------------------------------------------
-   ROTA: ATUALIZAR UM BOI (usada futuramente pela função Salvar)
+   ROTA: ATUALIZAR UM BOI (Com registro de Histórico)
    PUT /api/bois/:id
 --------------------------------------------------- */
 app.put("/api/bois/:id", async (req, res) => {
@@ -153,9 +200,24 @@ app.put("/api/bois/:id", async (req, res) => {
         const { id } = req.params;
         const dadosAtualizados = req.body;
 
+        // Busca o estado anterior do animal para o histórico
+        const boiAntigo = await db.collection("bois").findOne({ _id: new ObjectId(id) });
+
+        // Atualiza os dados do animal na coleção principal
         await db
             .collection("bois")
             .updateOne({ _id: new ObjectId(id) }, { $set: dadosAtualizados });
+
+        // Salva o registro da alteração na coleção "historicoBois"
+        if (boiAntigo) {
+            const registroHistorico = {
+                boi_id: id,
+                data_alteracao: new Date(),
+                dados_antigos: boiAntigo,
+                dados_novos: dadosAtualizados
+            };
+            await db.collection("historicoBois").insertOne(registroHistorico);
+        }
 
         res.json({ success: true });
     } catch (erro) {
