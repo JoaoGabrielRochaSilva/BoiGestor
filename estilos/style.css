@@ -367,6 +367,112 @@ dialog > button {
     margin-left: auto;
 }
 
+div.linha-tempo-container > button {
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: #27684A;
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.4s;
+}
+
+
+.lista-historico {
+    list-style: none;
+    padding: 10px 10px 10px 0;
+    margin: 0;
+
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    position: relative;
+}
+
+/* Personalização da barra de rolagem */
+.lista-historico::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lista-historico::-webkit-scrollbar-track {
+    background: #f1f5f3;
+    border-radius: 10px;
+}
+
+.lista-historico::-webkit-scrollbar-thumb {
+    background: #a5c5b9;
+    border-radius: 10px;
+}
+
+.lista-historico::-webkit-scrollbar-thumb:hover {
+    background: #26695B;
+}
+
+/* Cada registro */
+.lista-historico li {
+    position: relative;
+    padding: 0 0 25px 35px;
+    margin-left: 10px;
+    border-left: 2px solid #dce5e1;
+}
+
+/* Remove a linha do último elemento */
+.lista-historico li:last-child {
+    border-left: 2px solid transparent;
+    padding-bottom: 0;
+}
+
+/* Marcador da timeline */
+.lista-historico li::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #26695B;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #26695B;
+}
+
+/* Data */
+.historico-data {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #26695B;
+    margin-bottom: 5px;
+}
+
+/* Descrição */
+.historico-descricao {
+    display: block;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Efeito ao passar o mouse */
+.lista-historico li:hover::before {
+    background-color: #3b927e;
+    box-shadow: 0 0 0 3px #d8eee7;
+}
+
+.lista-historico li:hover .historico-descricao {
+    color: #26695B;
+}
+
+
+div.linha-tempo-container > button:hover {
+    cursor: pointer;
+    background-color: #3C775C;
+}
+
 dialog > button:hover {
     cursor: pointer;
     color: rgb(226, 2, 2);

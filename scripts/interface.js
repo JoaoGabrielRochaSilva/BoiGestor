@@ -537,10 +537,10 @@ async function linhaDoTempo(){
             return; 
         }
 
-        let html = "<ul>";
+        let html = "<ul class='lista-historico'>";
         historico.forEach(registro => {
             const dataFormatada = new Date(registro.data_alteracao).toLocaleString("pt-BR");
-            html += `<li><strong>${dataFormatada}</strong>: Dados do animal foram editados.</li>`;
+            html += `<li><span class="historico-data">${dataFormatada}</span> <span class="historico-descricao">Dados do animal foram editados.</span></li>`;
         });
         html += "</ul>";
 
