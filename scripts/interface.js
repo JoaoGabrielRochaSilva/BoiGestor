@@ -495,13 +495,123 @@ function editarTela() {
         producao: null,
         peso: null,
         producaoR: null,
-        alimentacaoR: null
+        alimentacaoR: null,
+        linhaTempo: null
     };
     
 //Destruir graficos criados
 function DestruirGrafico(grafico) {
     if (grafico)
         grafico.destroy();
+}
+
+//Funcionalidade Linha do Tempo
+async function linhaDoTempo(){
+    if (!animalSelecionado) return;
+
+    let divHistorico = document.getElementById("conteudoLinhaDoTempo"); 
+    
+    if (!divHistorico) {
+        console.error("Crie uma <div id='conteudoLinhaDoTempo'></div> dentro do dialog linhaDoTempo no seu HTML.");
+        return;
+    }
+
+    divHistorico.innerHTML = "<p>Carregando linha do tempo...</p>";
+
+    // LIMPEZA IMEDIATA: Destrói o gráfico antigo assim que o modal abre
+    const canvasGrafico = document.getElementById("graficoLinhaTempo");
+    let chartExistente = Chart.getChart(canvasGrafico);
+    if (chartExistente) chartExistente.destroy();
+    if (window.graficoLinhaTempoInstancia) window.graficoLinhaTempoInstancia.destroy();
+
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/historico/${animalSelecionado.id}`);
+        
+        if (!resposta.ok) throw new Error("Erro ao buscar histórico");
+        
+        const historico = await resposta.json();
+
+        // Se não houver histórico, a função encerra aqui, mas o gráfico já foi limpo acima
+        if (historico.length === 0) {
+            divHistorico.innerHTML = "<p>Nenhuma alteração registrada para este animal.</p>";
+            return; 
+        }
+
+        let html = "<ul>";
+        historico.forEach(registro => {
+            const dataFormatada = new Date(registro.data_alteracao).toLocaleString("pt-BR");
+            html += `<li><strong>${dataFormatada}</strong>: Dados do animal foram editados.</li>`;
+        });
+        html += "</ul>";
+
+        divHistorico.innerHTML = html;
+
+        renderizarGraficoLinhaTempo(historico.reverse()); 
+
+    } catch (error) {
+        console.error("Erro ao carregar histórico:", error);
+        divHistorico.innerHTML = "<p>Ocorreu um erro ao carregar a linha do tempo.</p>";
+    }
+}
+
+function renderizarGraficoLinhaTempo(historico) {
+    const canvasGrafico = document.getElementById("graficoLinhaTempo");
+    
+    // Método infalível do Chart.js para pegar e destruir o gráfico existente no canvas
+    let chartExistente = Chart.getChart(canvasGrafico);
+    if (chartExistente) {
+        chartExistente.destroy();
+    }
+
+    // Alternativa de segurança para limpar a instância global
+    if (window.graficoLinhaTempoInstancia) {
+        window.graficoLinhaTempoInstancia.destroy();
+    }
+
+    const labels = historico.map(reg => {
+        const data = new Date(reg.data_alteracao);
+        return data.toLocaleDateString("pt-BR");
+    });
+    
+    const dados = historico.map(reg => {
+        return reg.peso ? reg.peso : (reg.dados_novos && reg.dados_novos.peso ? reg.dados_novos.peso : 0);
+    });
+
+    // Salva a nova instância na variável global
+    window.graficoLinhaTempoInstancia = new Chart(canvasGrafico, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Evolução de Peso (Kg)',
+                data: dados,
+                borderColor: '#10B981',
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#27684A',
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    grid: { color: "#ECECEC" }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
 }
 
 //Monta os graficos dinamicamente no dashboard
@@ -1085,6 +1195,58 @@ function montarGraficosRelatorio() {
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const formRegistroTempo = document.getElementById('formNovoRegistroTempo');
+    
+    if (formRegistroTempo) {
+        formRegistroTempo.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Agora sim impede a página de recarregar
+            
+            const dataForm = document.getElementById('dataRegistro').value;
+            const pesoForm = document.getElementById('pesoRegistro').value;
+            
+            const idUsuario = localStorage.getItem('usuario_id'); 
+        
+            const dadosEnvio = {
+                id_boi: animalSelecionado.id,
+                id_usuario: idUsuario,
+                peso: pesoForm,
+                data: dataForm
+            };
+        
+            try {
+                // Aqui bloqueamos o botão para não enviar duas vezes
+                const btnSalvar = document.getElementById('btnSalvarRegistroTempo');
+                btnSalvar.disabled = true;
+                btnSalvar.innerHTML = '<i class="fa-solid fa-rotate"></i> Salvando...';
+
+                const resposta = await fetch(`${API_BASE_URL}/historico`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosEnvio)
+                });
+        
+                const resultado = await resposta.json();
+        
+                if (resultado.success) {
+                    mostraMensagem("Registro adicionado com sucesso!", 1);
+                    document.getElementById('modalNovoRegistroTempo').close();
+                    document.getElementById('formNovoRegistroTempo').reset(); // Limpa o form
+                    linhaDoTempo(); 
+                } else {
+                    mostraMensagem("Erro ao salvar registro", 2);
+                }
+            } catch (erro) {
+                console.error("Erro de conexão:", erro);
+                mostraMensagem("Erro de conexão com o servidor", 2);
+            } finally {
+                const btnSalvar = document.getElementById('btnSalvarRegistroTempo');
+                btnSalvar.disabled = false;
+                btnSalvar.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salvar Registo';
+            }
+        });
+    }
+});
 async function iniciarSistema() {
     await carregarBois();
 

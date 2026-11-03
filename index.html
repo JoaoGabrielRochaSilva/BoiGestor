@@ -200,8 +200,30 @@
                 </form>
             </dialog>
         </div>
+<!-- Modal da Linha do Tempo -->
+<dialog id="linhaDoTempo">
+    <button command="close" commandfor="linhaDoTempo"><i class="fa-solid fa-circle-xmark"></i></button>
+    
+    <h2 id="nomeAnimal"><i class="fa-solid fa-magnifying-glass-chart"></i> Linha do Tempo</h2>
+    <p>Evolução do peso e métricas do animal</p>
+    
+    <div class="linha-tempo-container" style="margin-bottom: 15px;">
+        <button type="button" command="show-modal" commandfor="modalNovoRegistroTempo">
+            <i class="fa-regular fa-square-plus"></i> Novo Registo de Peso
+        </button>
+    </div>
+
+    <div id="conteudoLinhaDoTempo"></div>
+
+    <div id="graficosLinhaTempo" style="margin-top: 20px; height: 300px; width: 100%;">
+        <div class="card-grafico" style="height: 100%;">
+            <canvas id="graficoLinhaTempo"></canvas>
+        </div>
+    </div>
+</dialog>
 
         <div id="menu-EditaRemove" class="oculto">
+            <button type="button" command="show-modal" commandfor="linhaDoTempo" onclick="linhaDoTempo()"><i class="fa-solid fa-magnifying-glass-chart"></i> Linha do Tempo</button>
             <button type="button" command="show-modal" commandfor="editarModal" onclick="editarTela()"><i class="fa-regular fa-pen-to-square"></i> Editar Animal</button>
             <button type="button" command="show-modal" commandfor="removerModal"><i class="fa-regular fa-trash-can"></i> Remover Animal</button>
         </div>
@@ -276,6 +298,28 @@
                 <button type="button" onclick="removerAnimal()" command="close" commandfor="removerModal"><i class="fa-solid fa-skull"></i> Sim</button>
                 <button type="button" command="close" commandfor="removerModal"><i class="fa-solid fa-arrow-rotate-left"></i> Não</button>
             </p>
+        </dialog>
+
+        <!-- Modal para Novo Registo na Linha do Tempo (Adicione junto aos outros dialogs) -->
+        <dialog id="modalNovoRegistroTempo">
+            <button command="close" commandfor="modalNovoRegistroTempo"><i class="fa-solid fa-circle-xmark"></i></button>
+            <h2><i class="fa-solid fa-weight-scale"></i> Novo Registo de Peso</h2>
+            <p>Insira a nova medição para atualizar o histórico</p>
+            <form id="formNovoRegistroTempo">
+                <p>
+                    <label for="dataRegistro">Data</label>
+                    <input type="date" name="dataRegistro" id="dataRegistro" required>
+                </p>
+                <p>
+                    <label for="pesoRegistro">Peso (Kg)</label>
+                    <input type="number" name="pesoRegistro" id="pesoRegistro" required placeholder="Ex: 850">
+                </p>
+                <p id="add">
+                    <button type="submit" id="btnSalvarRegistroTempo">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar Registo
+                    </button>
+                </p>
+            </form>
         </dialog>
 
         <div id="Relatório" class="divs">

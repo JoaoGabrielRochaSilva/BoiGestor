@@ -66,6 +66,8 @@ function clicou(botao) {
         if (!iframe.src) {
             iframe.src = "https://app.powerbi.com/view?r=eyJrIjoiNDg3M2FlMDktZjYxMS00YjczLWIxYzAtZTlhOTJjNTc5ZWVhIiwidCI6IjgzYmE0NWIzLTEwYWQtNDQ1Mi1hNDAxLTdiZmQwN2I3NDY4OCJ9&pageView=oneColumn";
         }
+    }else if (botao === 'perfilAnimal'){
+        //talvez mostrar os dados do animal por meio de uma tabela?
     }
     aparecerTabela(divtab, idTable);
 }
