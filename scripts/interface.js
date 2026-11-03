@@ -505,52 +505,72 @@ function DestruirGrafico(grafico) {
         grafico.destroy();
 }
 
-//Funcionalidade Linha do Tempo
-async function linhaDoTempo(){
+// Funcionalidade Linha do Tempo
+async function linhaDoTempo() {
     if (!animalSelecionado) return;
 
-    let divHistorico = document.getElementById("conteudoLinhaDoTempo"); 
-    
+    const divHistorico = document.getElementById("conteudoLinhaDoTempo");
+
     if (!divHistorico) {
-        console.error("Crie uma <div id='conteudoLinhaDoTempo'></div> dentro do dialog linhaDoTempo no seu HTML.");
+        console.error("Elemento conteudoLinhaDoTempo não encontrado.");
         return;
     }
 
     divHistorico.innerHTML = "<p>Carregando linha do tempo...</p>";
 
-    // LIMPEZA IMEDIATA: Destrói o gráfico antigo assim que o modal abre
+    // Limpa o gráfico anterior
     const canvasGrafico = document.getElementById("graficoLinhaTempo");
-    let chartExistente = Chart.getChart(canvasGrafico);
-    if (chartExistente) chartExistente.destroy();
-    if (window.graficoLinhaTempoInstancia) window.graficoLinhaTempoInstancia.destroy();
+    const chartExistente = Chart.getChart(canvasGrafico);
+
+    if (chartExistente) {
+        chartExistente.destroy();
+    }
+
+    if (window.graficoLinhaTempoInstancia) {
+        window.graficoLinhaTempoInstancia.destroy();
+        window.graficoLinhaTempoInstancia = null;
+    }
 
     try {
-        const resposta = await fetch(`${API_BASE_URL}/historico/${animalSelecionado.id}`);
-        
-        if (!resposta.ok) throw new Error("Erro ao buscar histórico");
-        
-        const historico = await resposta.json();
+        // Busca os dados no arquivo de dados
+        const historico = await buscarHistoricoAnimal(animalSelecionado.id);
 
-        // Se não houver histórico, a função encerra aqui, mas o gráfico já foi limpo acima
         if (historico.length === 0) {
-            divHistorico.innerHTML = "<p>Nenhuma alteração registrada para este animal.</p>";
-            return; 
+            divHistorico.innerHTML =
+                "<p>Nenhuma alteração registrada para este animal.</p>";
+            return;
         }
 
+        // Monta a lista de alterações
         let html = "<ul class='lista-historico'>";
+
         historico.forEach(registro => {
-            const dataFormatada = new Date(registro.data_alteracao).toLocaleString("pt-BR");
-            html += `<li><span class="historico-data">${dataFormatada}</span> <span class="historico-descricao">Dados do animal foram editados.</span></li>`;
+            const dataFormatada = new Date(
+                registro.data_alteracao
+            ).toLocaleString("pt-BR");
+
+            html += `
+                <li>
+                    <span class="historico-data">${dataFormatada}</span>
+                    <span class="historico-descricao">
+                        Dados do animal foram editados.
+                    </span>
+                </li>
+            `;
         });
+
         html += "</ul>";
 
         divHistorico.innerHTML = html;
 
-        renderizarGraficoLinhaTempo(historico.reverse()); 
+        // Renderiza o gráfico
+        renderizarGraficoLinhaTempo([...historico].reverse());
 
     } catch (error) {
         console.error("Erro ao carregar histórico:", error);
-        divHistorico.innerHTML = "<p>Ocorreu um erro ao carregar a linha do tempo.</p>";
+
+        divHistorico.innerHTML =
+            "<p>Ocorreu um erro ao carregar a linha do tempo.</p>";
     }
 }
 

@@ -363,6 +363,23 @@ async function removerAnimal() {
     mostraMensagem(html, 1);
 }
 
+// Buscar histórico de alterações de um animal
+async function buscarHistoricoAnimal(animalId) {
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/historico/${animalId}`);
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar histórico");
+        }
+
+        return await resposta.json();
+
+    } catch (error) {
+        console.error("Erro ao buscar histórico:", error);
+        throw error;
+    }
+}
+
 //Filtra os bois com base no formulário de filtro
 function Filtrar() {
     const nome = document.querySelector("#nomeFiltroAnimais").value.trim().toLowerCase();
