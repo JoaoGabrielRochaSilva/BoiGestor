@@ -431,26 +431,40 @@ function mostraDiv(botao) {
 }
 
 // Mostra uma mensagem de sucesso ou erro do formulário
+let temporizadorMensagem;
 function mostraMensagem(html, tipo) {
     let mensagem = $(".mensagem");
-    mensagem.html(html);
-    mensagem.removeClass("mensagem-branca mensagem-vermelha mensagemAtiva mensagemDesativa");
+    const elementoMensagem = mensagem[0];
 
-    if (tipo == 1) { // Mensagem de Sucesso
-        mensagem.addClass("mensagem-branca"); 
-    } else if (tipo == 2) { // Mensaagem de erro
+    clearTimeout(temporizadorMensagem);
+
+    mensagem.html(html);
+
+    mensagem.removeClass(
+        "mensagem-branca mensagem-vermelha mensagemAtiva mensagemDesativa"
+    );
+
+    if (tipo == 1) {
+        mensagem.addClass("mensagem-branca");
+    } else if (tipo == 2) {
         mensagem.addClass("mensagem-vermelha");
     }
-    // Faz a mensagem aparecer
+
+    if (!elementoMensagem.matches(":popover-open")) {
+        elementoMensagem.showPopover();
+    }
+
     mensagem.addClass("mensagemAtiva");
 
-    // Faz a mensagem Desaparecer depois de um tempo
-    setTimeout(() => {
+    temporizadorMensagem = setTimeout(() => {
         mensagem.removeClass("mensagemAtiva");
         mensagem.addClass("mensagemDesativa");
-        setTimeout(() => {
+
+        temporizadorMensagem = setTimeout(() => {
             mensagem.removeClass("mensagemDesativa");
-        }, 300);
+            elementoMensagem.hidePopover();
+        }, 400);
+
     }, 5000);
 }
 
@@ -1215,58 +1229,6 @@ function montarGraficosRelatorio() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const formRegistroTempo = document.getElementById('formNovoRegistroTempo');
-    
-    if (formRegistroTempo) {
-        formRegistroTempo.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Agora sim impede a página de recarregar
-            
-            const dataForm = document.getElementById('dataRegistro').value;
-            const pesoForm = document.getElementById('pesoRegistro').value;
-            
-            const idUsuario = localStorage.getItem('usuario_id'); 
-        
-            const dadosEnvio = {
-                id_boi: animalSelecionado.id,
-                id_usuario: idUsuario,
-                peso: pesoForm,
-                data: dataForm
-            };
-        
-            try {
-                // Aqui bloqueamos o botão para não enviar duas vezes
-                const btnSalvar = document.getElementById('btnSalvarRegistroTempo');
-                btnSalvar.disabled = true;
-                btnSalvar.innerHTML = '<i class="fa-solid fa-rotate"></i> Salvando...';
-
-                const resposta = await fetch(`${API_BASE_URL}/historico`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dadosEnvio)
-                });
-        
-                const resultado = await resposta.json();
-        
-                if (resultado.success) {
-                    mostraMensagem("Registro adicionado com sucesso!", 1);
-                    document.getElementById('modalNovoRegistroTempo').close();
-                    document.getElementById('formNovoRegistroTempo').reset(); // Limpa o form
-                    linhaDoTempo(); 
-                } else {
-                    mostraMensagem("Erro ao salvar registro", 2);
-                }
-            } catch (erro) {
-                console.error("Erro de conexão:", erro);
-                mostraMensagem("Erro de conexão com o servidor", 2);
-            } finally {
-                const btnSalvar = document.getElementById('btnSalvarRegistroTempo');
-                btnSalvar.disabled = false;
-                btnSalvar.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salvar Registo';
-            }
-        });
-    }
-});
 async function iniciarSistema() {
     await carregarBois();
 

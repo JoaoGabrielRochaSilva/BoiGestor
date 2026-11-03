@@ -380,6 +380,82 @@ async function buscarHistoricoAnimal(animalId) {
     }
 }
 
+//Cadastra um novo registro de peso no histórico do animal.
+function configurarFormularioHistorico() {
+    const formRegistroTempo = document.getElementById("formNovoRegistroTempo");
+
+    if (!formRegistroTempo) return;
+
+    formRegistroTempo.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const dataForm = document.getElementById("dataRegistro").value;
+        const pesoForm = document.getElementById("pesoRegistro").value;
+        const usuarioId = localStorage.getItem("usuario_id");
+
+        if (!animalSelecionado || !animalSelecionado.id) {
+            mostraMensagem("Nenhum animal foi selecionado.", 2);
+            return;
+        }
+
+        if (!usuarioId) {
+            mostraMensagem("Usuário não identificado. Faça login novamente.", 2);
+            return;
+        }
+
+        const dadosEnvio = {
+            boi_id: animalSelecionado.id,
+            usuario_id: usuarioId,
+            peso: pesoForm,
+            producao: animalSelecionado.producao,
+            alimentacao: animalSelecionado.alimentacao,
+            data_alteracao: dataForm,
+            tipo_registro: "manual"
+        };
+
+        const btnSalvar = document.getElementById("btnSalvarRegistroTempo");
+
+        try {
+            btnSalvar.disabled = true;
+            btnSalvar.innerHTML = '<i class="fa-solid fa-rotate"></i> Salvando...';
+
+            const resposta = await fetch(`${API_BASE_URL}/historico`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dadosEnvio)
+            });
+
+            const resultado = await resposta.json();
+
+            if (!resposta.ok || !resultado.success) {
+                mostraMensagem(resultado.message || "Erro ao salvar registro.", 2);
+                return;
+            }
+
+            mostraMensagem(resultado.message, 1);
+
+            document.getElementById("modalNovoRegistroTempo").close();
+            formRegistroTempo.reset();
+
+            await linhaDoTempo();
+
+        } catch (erro) {
+            console.error("Erro ao cadastrar registro de peso:", erro);
+            mostraMensagem("Erro de conexão com o servidor.", 2);
+
+        } finally {
+            btnSalvar.disabled = false;
+            btnSalvar.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salvar Registo';
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    configurarFormularioHistorico();
+});
+
 //Filtra os bois com base no formulário de filtro
 function Filtrar() {
     const nome = document.querySelector("#nomeFiltroAnimais").value.trim().toLowerCase();

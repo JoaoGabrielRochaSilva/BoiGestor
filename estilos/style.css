@@ -757,20 +757,31 @@ dialog#filterAnimais > form > p > button:last-child:hover {
 div.mensagem {
     visibility: hidden;
     opacity: 0;
+
     width: 100%;
     max-width: 375px;
     min-width: fit-content;
     height: fit-content;
-    position: sticky;
-    transform: translateX(0px);
-    margin-left: auto;
-    bottom: 15px;
-    z-index: 1;
+
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    bottom: auto;
+    left: auto;
+
+    margin: 0;
+    transform: translateX(0);
+
+    z-index: 999999;
+
     padding: 22px;
     line-height: 25px;
     border-radius: 12px;
+
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.205);
     transition: all 0.4s ease;
+
+    border: none;
 }
 
 div.mensagem > h1 {
@@ -781,12 +792,12 @@ div.mensagem > p {
     font-size: 0.9em;
 }
 
-div.mensagemAtiva {
+div.mensagem.mensagemAtiva {
     visibility: visible;
     opacity: 1;
 }
 
-div.mensagemDesativa {
+div.mensagem.mensagemDesativa {
     visibility: hidden;
     opacity: 0;
     transform: translateX(75px);
@@ -795,13 +806,13 @@ div.mensagemDesativa {
 .mensagem-branca {
     background-color: white;
     color: black;
-    border: 1px solid rgba(128, 128, 128, 0.26);
+    border: 1px solid rgba(128, 128, 128, 0.26) !important;
 }
 
 .mensagem-vermelha {
     background-color: #DC2828;
     color: white;
-    border: 1px solid #dc282834;
+    border: 1px solid #dc282834 !important;
 }
 /*=============================================*/
 
