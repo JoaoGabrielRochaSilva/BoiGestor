@@ -495,13 +495,109 @@ function editarTela() {
         producao: null,
         peso: null,
         producaoR: null,
-        alimentacaoR: null
+        alimentacaoR: null,
+        linhaTempo: null
     };
     
 //Destruir graficos criados
 function DestruirGrafico(grafico) {
     if (grafico)
         grafico.destroy();
+}
+
+//Funcionalidade Linha do Tempo
+async function linhaDoTempo(){
+    if (!animalSelecionado) return;
+
+    // Certifique-se de que no seu HTML (dentro do dialog linhaDoTempo) exista uma div com id "conteudoLinhaDoTempo"
+    let divHistorico = document.getElementById("conteudoLinhaDoTempo"); 
+    
+    if (!divHistorico) {
+        console.error("Crie uma <div id='conteudoLinhaDoTempo'></div> dentro do dialog linhaDoTempo no seu HTML.");
+        return;
+    }
+
+    divHistorico.innerHTML = "<p>Carregando linha do tempo...</p>";
+
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/historico/${animalSelecionado.id}`);
+        
+        if (!resposta.ok) throw new Error("Erro ao buscar histórico");
+        
+        const historico = await resposta.json();
+
+        if (historico.length === 0) {
+            divHistorico.innerHTML = "<p>Nenhuma alteração registrada para este animal.</p>";
+            return;
+        }
+
+        let html = "<ul>";
+        historico.forEach(registro => {
+            const dataFormatada = new Date(registro.data_alteracao).toLocaleString("pt-BR");
+            html += `<li><strong>${dataFormatada}</strong>: Dados do animal foram editados.</li>`;
+        });
+        html += "</ul>";
+
+        divHistorico.innerHTML = html;
+
+        // NOVA LINHA: Chama a função para desenhar o gráfico com os dados
+        renderizarGraficoLinhaTempo(historico.reverse()); // Reverse para exibir cronológico no gráfico
+
+    } catch (error) {
+        console.error("Erro ao carregar histórico:", error);
+        divHistorico.innerHTML = "<p>Ocorreu um erro ao carregar a linha do tempo.</p>";
+    }
+}
+
+function renderizarGraficoLinhaTempo(historico) {
+    const ctx = document.getElementById("graficoLinhaTempo");
+    DestruirGrafico(graficos.linhaTempo);
+
+    const labels = historico.map(reg => {
+        // Usa a data padronizada em todos os registros
+        const data = new Date(reg.data_alteracao);
+        return data.toLocaleDateString("pt-BR");
+    });
+    
+    const dados = historico.map(reg => {
+        // Se for um registro manual, usa reg.peso. Se for edição, busca dentro de dados_novos
+        return reg.peso ? reg.peso : (reg.dados_novos && reg.dados_novos.peso ? reg.dados_novos.peso : 0);
+    });
+
+    graficos.linhaTempo = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Evolução de Peso (Kg)',
+                data: dados,
+                borderColor: '#10B981', // Verde Boi Gestor
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#27684A',
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    grid: { color: "#ECECEC" }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
 }
 
 //Monta os graficos dinamicamente no dashboard
@@ -1085,6 +1181,58 @@ function montarGraficosRelatorio() {
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const formRegistroTempo = document.getElementById('formNovoRegistroTempo');
+    
+    if (formRegistroTempo) {
+        formRegistroTempo.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Agora sim impede a página de recarregar
+            
+            const dataForm = document.getElementById('dataRegistro').value;
+            const pesoForm = document.getElementById('pesoRegistro').value;
+            
+            const idUsuario = localStorage.getItem('usuario_id'); 
+        
+            const dadosEnvio = {
+                id_boi: animalSelecionado.id,
+                id_usuario: idUsuario,
+                peso: pesoForm,
+                data: dataForm
+            };
+        
+            try {
+                // Aqui bloqueamos o botão para não enviar duas vezes
+                const btnSalvar = document.getElementById('btnSalvarRegistroTempo');
+                btnSalvar.disabled = true;
+                btnSalvar.innerHTML = '<i class="fa-solid fa-rotate"></i> Salvando...';
+
+                const resposta = await fetch(`${API_BASE_URL}/historico`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosEnvio)
+                });
+        
+                const resultado = await resposta.json();
+        
+                if (resultado.success) {
+                    mostraMensagem("Registro adicionado com sucesso!", 1);
+                    document.getElementById('modalNovoRegistroTempo').close();
+                    document.getElementById('formNovoRegistroTempo').reset(); // Limpa o form
+                    linhaDoTempo(); 
+                } else {
+                    mostraMensagem("Erro ao salvar registro", 2);
+                }
+            } catch (erro) {
+                console.error("Erro de conexão:", erro);
+                mostraMensagem("Erro de conexão com o servidor", 2);
+            } finally {
+                const btnSalvar = document.getElementById('btnSalvarRegistroTempo');
+                btnSalvar.disabled = false;
+                btnSalvar.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salvar Registo';
+            }
+        });
+    }
+});
 async function iniciarSistema() {
     await carregarBois();
 
