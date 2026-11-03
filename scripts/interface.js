@@ -509,7 +509,6 @@ function DestruirGrafico(grafico) {
 async function linhaDoTempo(){
     if (!animalSelecionado) return;
 
-    // Certifique-se de que no seu HTML (dentro do dialog linhaDoTempo) exista uma div com id "conteudoLinhaDoTempo"
     let divHistorico = document.getElementById("conteudoLinhaDoTempo"); 
     
     if (!divHistorico) {
@@ -519,6 +518,12 @@ async function linhaDoTempo(){
 
     divHistorico.innerHTML = "<p>Carregando linha do tempo...</p>";
 
+    // LIMPEZA IMEDIATA: Destrói o gráfico antigo assim que o modal abre
+    const canvasGrafico = document.getElementById("graficoLinhaTempo");
+    let chartExistente = Chart.getChart(canvasGrafico);
+    if (chartExistente) chartExistente.destroy();
+    if (window.graficoLinhaTempoInstancia) window.graficoLinhaTempoInstancia.destroy();
+
     try {
         const resposta = await fetch(`${API_BASE_URL}/historico/${animalSelecionado.id}`);
         
@@ -526,9 +531,10 @@ async function linhaDoTempo(){
         
         const historico = await resposta.json();
 
+        // Se não houver histórico, a função encerra aqui, mas o gráfico já foi limpo acima
         if (historico.length === 0) {
             divHistorico.innerHTML = "<p>Nenhuma alteração registrada para este animal.</p>";
-            return;
+            return; 
         }
 
         let html = "<ul>";
@@ -540,8 +546,7 @@ async function linhaDoTempo(){
 
         divHistorico.innerHTML = html;
 
-        // NOVA LINHA: Chama a função para desenhar o gráfico com os dados
-        renderizarGraficoLinhaTempo(historico.reverse()); // Reverse para exibir cronológico no gráfico
+        renderizarGraficoLinhaTempo(historico.reverse()); 
 
     } catch (error) {
         console.error("Erro ao carregar histórico:", error);
@@ -550,28 +555,37 @@ async function linhaDoTempo(){
 }
 
 function renderizarGraficoLinhaTempo(historico) {
-    const ctx = document.getElementById("graficoLinhaTempo");
-    DestruirGrafico(graficos.linhaTempo);
+    const canvasGrafico = document.getElementById("graficoLinhaTempo");
+    
+    // Método infalível do Chart.js para pegar e destruir o gráfico existente no canvas
+    let chartExistente = Chart.getChart(canvasGrafico);
+    if (chartExistente) {
+        chartExistente.destroy();
+    }
+
+    // Alternativa de segurança para limpar a instância global
+    if (window.graficoLinhaTempoInstancia) {
+        window.graficoLinhaTempoInstancia.destroy();
+    }
 
     const labels = historico.map(reg => {
-        // Usa a data padronizada em todos os registros
         const data = new Date(reg.data_alteracao);
         return data.toLocaleDateString("pt-BR");
     });
     
     const dados = historico.map(reg => {
-        // Se for um registro manual, usa reg.peso. Se for edição, busca dentro de dados_novos
         return reg.peso ? reg.peso : (reg.dados_novos && reg.dados_novos.peso ? reg.dados_novos.peso : 0);
     });
 
-    graficos.linhaTempo = new Chart(ctx, {
+    // Salva a nova instância na variável global
+    window.graficoLinhaTempoInstancia = new Chart(canvasGrafico, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
                 label: 'Evolução de Peso (Kg)',
                 data: dados,
-                borderColor: '#10B981', // Verde Boi Gestor
+                borderColor: '#10B981',
                 backgroundColor: 'rgba(16, 185, 129, 0.2)',
                 borderWidth: 2,
                 fill: true,
